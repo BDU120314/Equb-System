@@ -6,11 +6,15 @@ const Schema=mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    fullName: {
+    fname: {
       type: String,
       required: true,
     },
-    password: {
+    lname: {
+      type: String,
+      required: true,
+    },
+    phone_number: {
       type: String,
       required: true,
     },
@@ -18,10 +22,48 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    email: {
+    password: {
       type: String,
       required: true,
     },
+    bank_account_no: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    ID: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    payments: [
+      {
+        time: {
+          type: Date,
+          default: Date.now,
+        },
+        amount: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
+    payouts: [
+      {
+        time: {
+          type: Date,
+          default: Date.now,
+        },
+        amount: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
@@ -33,7 +75,16 @@ module.exports=mongoose.model('equbUser',userSchema);
 
 
 
-
+// fname
+// lname
+// phone_number
+// address
+// password
+// bank_account_no
+// email
+// ID
+// time of payment and amount
+// time of payout and amount
 
 
 
