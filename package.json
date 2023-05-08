@@ -5,6 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
+    "dev":"nodemon backend/server.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BDU120314/Equb-System.git"
@@ -17,13 +19,6 @@
   },
   "homepage": "https://github.com/BDU120314/Equb-System#readme",
   "dependencies": {
-    "express": "^4.18.2",
-<<<<<<< HEAD
-=======
-    "mongoose": "^7.1.0"
-  },
-  "devDependencies": {
->>>>>>> 4d9754bd5ccd77d33358907f592356a9042f26cd
-    "nodemon": "^2.0.22"
+    "express": "^4.18.2"
   }
 }
