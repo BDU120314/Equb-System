@@ -12,6 +12,12 @@ app.get("/", (req, res) =>{
   app.post('/gebre',(req,res)=>{
     res.send('gebre file')
   })
+  app.delete('/gebre/:id',(req,res)=>{
+    res.send('successfully deleted')
+  })
+  app.patch('/:id',(req,res)=>{
+   res.send('correctly updated') 
+  })
 
   app.listen(port, 
   () =>{
