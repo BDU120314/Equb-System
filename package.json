@@ -1,0 +1,20 @@
+{
+  "name": "equb-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BDU120314/Equb-System.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BDU120314/Equb-System/issues"
+  },
+  "homepage": "https://github.com/BDU120314/Equb-System#readme"
+}
