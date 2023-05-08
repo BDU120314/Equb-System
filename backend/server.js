@@ -4,10 +4,13 @@ const app = express();
 
 const port = process.env.PORT || 5000;
 
-app.get("/", 
-(res, req) =>{
-  res.send("server js")
+app.get("/", (req, res) =>{
+  res.send("gebrehiwot and muller js")
 
+  });
+
+  app.post('/gebre',(req,res)=>{
+    res.send('gebre file')
   })
 
   app.listen(port, 
