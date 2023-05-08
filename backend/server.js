@@ -1,20 +1,16 @@
 const express = require("express");
+const routes = require('./Routes/router');
 
 const app = express();
 
 const port = process.env.PORT || 5000;
 
-app.get("/", (req,res) =>{
-  res.send("server js")
+// routes
+app.use(express.json())
+app.use("", routes);
 
-  });
 
-  app.post("/muller",(req,res)=>{
-res.send("muluken");
-  });
-  
-
-  app.listen(port, 
+  app.listen(5000, 
   () =>{
   console.log(`server is running on port : ${port}`)
     })
