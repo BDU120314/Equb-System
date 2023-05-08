@@ -1,17 +1,16 @@
 const express = require("express");
+const routes = require('./Routes/router');
 
 const app = express();
 
 const port = process.env.PORT || 5000;
 
-app.get("/", (req, res) =>{
-  res.send("gebrehiwot and muller js")
 
-  });
+// routes
+app.use(express.json())
+app.use("", routes);
 
-  app.post('/gebre',(req,res)=>{
-    res.send('gebre file')
-  })
+
   app.delete('/gebre/:id',(req,res)=>{
     res.send('successfully deleted')
   })
@@ -19,7 +18,8 @@ app.get("/", (req, res) =>{
    res.send('correctly updated') 
   })
 
-  app.listen(port, 
+ 
+  app.listen(5000,
   () =>{
   console.log(`server is running on port : ${port}`)
     })
