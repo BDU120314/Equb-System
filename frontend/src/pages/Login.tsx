@@ -42,7 +42,7 @@ const Login = () => {
       </div>
       <div className="mb-5">
         Don't have account ? 
-        <span className="text-blue-900 text-lg">  SignUp</span>
+        <span className="text-blue-900 text-lg"> SignUp</span>
       </div>
     </div>
   );
