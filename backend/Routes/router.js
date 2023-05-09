@@ -12,11 +12,11 @@ router.post("/", createEqub);
 
 //updating request
 
-router.patch("/:id", updateEqub);
+router.patch("/update/:id", updateEqub);
 
 //delete requests
 
-router.delete("/:id", deleteEqub);
+router.delete("/delete/:id", deleteEqub);
 
 
 module.exports=router;

@@ -1,14 +1,14 @@
+//creating users
+const createEqub = async (req, res) => {
+  await res.send("posting requests");
+};
+
 //Geting equb user
 
 const getEqub = async(req, res) => {
   await res.send("server getting requests");
 };
 
-//creating equb userawait
-
-const createEqub = async (req, res) => {
- await res.send("posting requests");
-};
 //updating equb user
 const updateEqub = async (req, res) => {
  await res.send("updating files");
