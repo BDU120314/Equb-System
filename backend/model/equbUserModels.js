@@ -68,23 +68,13 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports=mongoose.model('equbUser',userSchema);
+
+const User=mongoose.model('User',userSchema);
+
+module.exports=User;
 
 
 
-
-
-
-// fname
-// lname
-// phone_number
-// address
-// password
-// bank_account_no
-// email
-// ID
-// time of payment and amount
-// time of payout and amount
 
 
 
