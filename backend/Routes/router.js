@@ -1,23 +1,26 @@
-const express=require('express');
-const {getEqub, createEqub, updateEqub, deleteEqub} =require('../controller/equbController')
-const userRouter=express.Router();
-
+const express = require("express");
+const {
+  getEqubUser,
+  createEqubUser,
+  updateEqubUser,
+  deleteEqubUser,
+} = require("../controller/equbController");
+const userRouter = express.Router();
 
 // get files
 
-userRouter.get("/", getEqub);
+userRouter.get("/", getEqubUser);
 
 //creating files
-userRouter.post("/", createEqub);
+userRouter.post("/", createEqubUser);
 
 //updating request
 
-
-userRouter.patch("/:id", updateEqub);
+userRouter.patch("/:id", updateEqubUser);
 
 //delete requests
 
-userRouter.delete("/:id", deleteEqub);
+userRouter.delete("/:id", deleteEqubUser);
 
 // router.patch("/update/:id", updateEqub);
 
@@ -25,6 +28,4 @@ userRouter.delete("/:id", deleteEqub);
 
 // router.delete("/delete/:id", deleteEqub);
 
-
-
-module.exports=userRouter;
+module.exports = userRouter;

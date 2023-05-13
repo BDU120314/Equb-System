@@ -1,23 +1,50 @@
+const userService = require("../services/UserService");
+
 //creating users
-const createEqub = async (req, res) => {
-  await res.send("posting requests");
+const createEqubUser = async (req, res) => {
+  try {
+    const user = await userService.createEqubUser(req.body);
+    res.json({ data: user, status: "success" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
 //Geting equb user
 
-const getEqub = async(req, res) => {
-  await res.send("server getting requests");
+const getEqubUser = async (req, res) => {
+  try {
+    const user = await userService.getEqubUserById(req.params.id);
+    res.json({ data: user, status: "success" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
 //updating equb user
-const updateEqub = async (req, res) => {
- await res.send("updating files");
+const updateEqubUser = async (req, res) => {
+  try {
+    const user = await userService.updateEqubUser(req.params.id, req.body);
+    res.json({ data: user, status: "success" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
 //deleting file
 
-const deleteEqub = async (req, res) => {
- await  res.send("deleting files");
+const deleteEqubUser = async (req, res) => {
+  try {
+    const user = await userService.deleteEqubUser(req.params.id);
+    res.json({ data: user, status: "success" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
-module.exports = { getEqub, createEqub, updateEqub, deleteEqub };
+module.exports = {
+  getEqubUser,
+  createEqubUser,
+  updateEqubUser,
+  deleteEqubUser,
+};

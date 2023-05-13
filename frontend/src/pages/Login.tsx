@@ -38,15 +38,18 @@ navigate("/dashboard")
   return (
     <div className="bg-slate-300 w-[400px] flex justify-center items-center flex-col text-black">
       <div className="text-center text-green text-2xl font-bold mt-5">
-        <span className="text-black">Equb System</span>
+        <span className="text-black">Equb System</span>React
       </div>
 
-      <form onSubmit={handleSubmit} className="flex justify-center items-center flex-col gap-5 m-5">
+      <form
+        onSubmit={handleSubmit}
+        className="flex justify-center items-center flex-col gap-5 m-5"
+      >
         <div className=" flex justify-center items-left text-md flex-col gap-2">
           <label htmlFor="phone">Phone Number</label>
           <input
-          value={phone_number}
-          onChange={handleChange}
+            value={phone_number}
+            onChange={handleChange}
             className="w-[350px] h-10 pl-3 rounded outline-0"
             type="tel"
             placeholder="Enter phone number"
@@ -58,8 +61,8 @@ navigate("/dashboard")
         <div className=" flex justify-center items-left text-md flex-col gap-2">
           <label htmlFor="password">Password</label>
           <input
-          value={password}
-          onChange={handleChange}
+            value={password}
+            onChange={handleChange}
             className="w-[350px] h-10 pl-3 rounded outline-0"
             type="password"
             placeholder="Enter password"
