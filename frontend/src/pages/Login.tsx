@@ -88,7 +88,7 @@ navigate("/dashboard")
 
       <div className="flex justify-center items-left mb-3 text-slate-500">
         <span className="text-md text-left flex justify-center items-end">
-          <Link to="/phonenumber">forgot password ?</Link>
+          <Link to="/forgetPasword">forgot password ?</Link>
         </span>
       </div>
       <div className="mb-5">
