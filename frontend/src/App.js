@@ -1,8 +1,11 @@
+import LandingPage from "./pages/LandingPage";
+
 function App() {
   return (
-    <div className="App">
-   hellwo world
-    </div>
+   <div>
+    <LandingPage />
+   </div>
+
   );
 }
 
