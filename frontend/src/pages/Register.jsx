@@ -1,57 +1,112 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+const initialState = {
+  fname: "",
+  mname: "",
+  lname: "",
+  phone_number: "",
+  password: "",
+  address: "",
+  image: null,
+};
 
 const Register = () => {
+  const [formData, setFormData] = useState(initialState);
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    // Check if the input is a file (image input)
+    if (files && files.length > 0) {
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: files[0], // Only store the first selected file
+      }));
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formDataToSend = new FormData();
+    for (const key in formData) {
+      formDataToSend.append(key, formData[key]);
+    }
+
+    console.log(Object.fromEntries(formDataToSend)); // Display form data on the console
+
+    try {
+      // axios
+      //   .post("http://localhost:5000/api/v1/users", formDataToSend)
+      //   .then((respponse) => {
+      //     alert("success fully registerd");
+      //   });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
-      <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-100">
-        <div>
+      <div className="flex flex-col justify-center items-center w-screen min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-100">
+        <div className="shadow-xl">
           <h3 className="text-4xl font-bold text-blue-400">Equb</h3>
         </div>
-        <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-gray-100 shadow-md sm:max-w-lg sm:rounded-lg">
-          <form>
-            <div>
-              <label
-                htmlFor="fname"
-                classfname="block text-sm font-medium text-gray-700 undefined"
-              >
-                First Name
-              </label>
-              <div classfname="flex flex-col items-start">
+        <div className="w-[100vw] flex flex-col px-6 py-4 mt-6 overflow-hidden bg-gray-100 shadow-md border-t-gray-400 sm:max-w-lg sm:rounded-lg">
+          <form className="" onSubmit={handleSubmit}>
+            <div className="flex items-center justify-center gap-5">
+              <div>
+                <label
+                  htmlFor="fname"
+                  className="block text-sm font-medium text-gray-700 undefined"
+                >
+                  First Name
+                </label>
+
                 <input
+                  value={formData.fname}
+                  onChange={handleChange}
                   type="text"
-                  fname="fname"
-                  className="block w-full mt-1 border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  name="fname"
+                  className="block w-[150px] mt-1 pl-2 border-gray-400 border rounded-md shadow-sm outline-none items-center focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
-            </div>
-            <div>
-              <label
-                htmlFor="mname"
-                className="block text-sm font-medium text-gray-700 undefined"
-              >
-                Middle Name
-              </label>
-              <div className="flex flex-col items-start">
+              <div>
+                <label
+                  htmlFor="mname"
+                  className="block text-sm font-medium text-gray-700 undefined"
+                >
+                  Middle Name
+                </label>
+
                 <input
+                  value={formData.mname}
+                  onChange={handleChange}
                   type="text"
                   name="mname"
-                  className="block w-full mt-1 border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="block w-[150px] mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
-            </div>
-            <div>
-              <label
-                htmlFor="lname"
-                className="block text-sm font-medium text-gray-700 undefined"
-              >
-                Last Name
-              </label>
-              <div className="flex flex-col items-start">
+
+              <div>
+                <label
+                  htmlFor="lname"
+                  className="block text-sm font-medium text-gray-700 undefined"
+                >
+                  Last Name
+                </label>
+
                 <input
+                  value={formData.lname}
+                  onChange={handleChange}
                   type="text"
                   name="lname"
-                  className="block w-full mt-1 border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="block w-[150px] mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
             </div>
@@ -64,10 +119,12 @@ const Register = () => {
               </label>
               <div className="flex flex-col items-start">
                 <input
+                  value={formData.phone_number}
+                  onChange={handleChange}
                   id="phone"
                   type="tel"
-                  name="Phone_number"
-                  className="block w-full mt-1 border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  name="phone_number"
+                  className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
             </div>
@@ -80,9 +137,12 @@ const Register = () => {
               </label>
               <div className="flex flex-col items-start">
                 <input
+                  value={formData.password}
+                  onChange={handleChange}
+                  autoComplete="false"
                   type="password"
                   name="password"
-                  className="block w-full mt-1 border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
             </div>
@@ -95,25 +155,29 @@ const Register = () => {
               </label>
               <div className="flex flex-col items-start">
                 <input
-                  type="password"
-                  name="password_confirmation"
-                  className="block w-full mt-1 border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  value={formData.address}
+                  onChange={handleChange}
+                  type="address"
+                  name="address"
+                  className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
             </div>
 
             <div>
               <label
-                htmlFor="name"
+                htmlFor="id"
                 className="block text-sm font-medium text-gray-700 undefined"
               >
                 Add ID Card
               </label>
               <div className="flex flex-col items-start">
                 <input
+                  id="id"
                   type="file"
                   accept=".jpg, .jpeg, .png"
-                  name="name"
+                  onChange={handleChange} // Add the onChange event handler
+                  name="image" // Set the name to "image" to match the state key
                   className="block w-full mt-1 border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>

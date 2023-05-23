@@ -7,9 +7,9 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route exact path="/" element={<LandingPage />} />
-        <Route exact path="/signUp" element={<Register />} />
-        <Route exact path="/login" element={<Login />} />
+        <Route exact={true} path="/" element={<LandingPage />} />
+        <Route exact={true} path="/signUp" element={<Register />} />
+        <Route exact={true} path="/login" element={<Login />} />
       </Routes>
     </div>
   );
