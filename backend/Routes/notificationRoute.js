@@ -1,6 +1,6 @@
 const express = require("express");
 const notificationRouter = express.Router();
-const notificationController = require("../controllers/notificationController");
+const notificationController = require("../controller/notificationController");
 const authMiddleware = require("../middlewares/authMiddleware"); //for handling user authentication
 
 notificationRouter.get(

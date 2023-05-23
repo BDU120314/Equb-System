@@ -1,6 +1,7 @@
 const express = require("express");
 const {
-  getEqubUser,
+  getEqubUsers,
+  getSingleUser,
   createEqubUser,
   updateEqubUser,
   deleteEqubUser,
@@ -9,7 +10,11 @@ const userRouter = express.Router();
 
 // get files
 
-userRouter.get("/", getEqubUser);
+userRouter.get("/", getEqubUsers);
+
+// get single files
+
+userRouter.get("/:id", getSingleUser);
 
 //creating files
 userRouter.post("/", createEqubUser);
@@ -21,11 +26,5 @@ userRouter.patch("/:id", updateEqubUser);
 //delete requests
 
 userRouter.delete("/:id", deleteEqubUser);
-
-// router.patch("/update/:id", updateEqub);
-
-//delete requests
-
-// router.delete("/delete/:id", deleteEqub);
 
 module.exports = userRouter;

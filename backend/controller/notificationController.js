@@ -1,6 +1,6 @@
 const Notification = require("../model/notificationModel");
 
-exports.getNotifications = async (req, res) => {
+getNotifications = async (req, res) => {
   try {
     const notifications = await Notification.find({ user: req.user._id }).sort(
       "-createdAt"
@@ -12,7 +12,7 @@ exports.getNotifications = async (req, res) => {
   }
 };
 
-exports.markAsRead = async (req, res) => {
+markAsRead = async (req, res) => {
   try {
     const notification = await Notification.findByIdAndUpdate(
       req.params.id,
@@ -25,3 +25,6 @@ exports.markAsRead = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+const notificationController= { getNotifications, markAsRead };
+module.exports = notificationController;
