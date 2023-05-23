@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import logo from "../assets/equb.png";
 import { Link } from "react-router-dom";
@@ -55,3 +56,5 @@ const Login = () => {
 };
 
 export default Login;
+=======
+>>>>>>> gebre
