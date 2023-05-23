@@ -8,10 +8,10 @@ const App = () => {
   return (
     <div className=" bg-gray-50 h-screen flex justify-center items-center">
       <Routes>
-        {/* <Route path="/login"  element={<Login />}/> */}
+        <Route path="/login"  element={<Login />}/>
         <Route path="/" element = {<SignUp />} />
       </Routes> 
-     {/* <Profile></Profile> */}
+     <Profile></Profile>
     </div>
   );
 };
