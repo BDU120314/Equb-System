@@ -78,7 +78,7 @@ const Login = () => {
           Sign in to your account
         </span>
       </div>
-      <div className="flex justify-center items-center bg-white rounded-[15px] text-black shadow-xl p-14">
+      <div className="flex justify-center items-center bg-white rounded-lg text-black shadow-xl p-14">
         <form
           onSubmit={handleSubmit}
           action=""

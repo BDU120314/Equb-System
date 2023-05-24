@@ -121,17 +121,17 @@ const updateEqubUser = asyncHandler(async (req, res) => {
   let user = await equbUserModel.findOne({ _id: id });
   try {
     if (user) {
-      console.log("user is natty");
       if (req.method === "PATCH") {
         const urls = [];
         const files = req.body;
         console.log(files);
-        for (const file of files) {
-          const { path } = file;
-          const newPath = await uploader(path);
-          urls.push(newPath);
-          fs.unlinkSync(path);
-        }
+        // for (const file of files) {
+        //   const { path } = file;
+        //   console.log(path);
+        //   const newPath = await uploader(path);
+        //   urls.push(newPath);
+        //   fs.unlinkSync(path);
+        // }
         //updating the datas of that user
         user.updateOne(
           {
@@ -150,7 +150,6 @@ const updateEqubUser = asyncHandler(async (req, res) => {
           {},
           { new: true }
         );
-        console.log("dasdhj");
         return res.status(201).json({
           success: true,
           message: "user updated sucessfully",
