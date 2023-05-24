@@ -6,6 +6,8 @@ import Dashboard from "./pages/Dashboard";
 import { Route, Routes } from "react-router-dom";
 import Register from "./pages/Register";
 import Page404 from "./pages/404";
+import LandingPage from "./pages/LandingPage";
+
 
 function App() {
   return (
