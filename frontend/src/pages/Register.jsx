@@ -1,36 +1,49 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
-const initialState = {
-  fname: "",
-  mname: "",
-  lname: "",
-  phone_number: "",
-  password: "",
-  address: "",
-  image: null,
-};
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setFormData} from "../redux/reducers/registerReducer";
+import { registerUser } from "../api/registerApi";
+import { setError, setRegistrationStatus } from "../redux/reducers/registerReducer";
 
 const Register = () => {
-  const [formData, setFormData] = useState(initialState);
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    // Check if the input is a file (image input)
-    if (files && files.length > 0) {
-      setFormData((prevState) => ({
-        ...prevState,
-        [name]: files[0], // Only store the first selected file
-      }));
-    } else {
-      setFormData((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
-    }
-  };
+const dispatch = useDispatch();
+const navigate = useNavigate();
+const formData = useSelector((state) => state.register.formData);
+// const registrationStatus = useSelector(
+//   (state) => state.register.registrationStatus
+// );
+const error = useSelector((state) => state.register.error);
 
-  const handleSubmit = (e) => {
+  // const handleChange = (e) => {
+  //   const { name, value, files } = e.target;
+  //   // Check if the input is a file (image input)
+  //   if (files && files.length > 0) {
+  //     setFormData((prevState) => ({
+  //       ...prevState,
+  //       [name]: files[0], // Only store the first selected file
+  //     }));
+  //   } else {
+  //     setFormData((prevState) => ({
+  //       ...prevState,
+  //       [name]: value,
+  //     }));
+  //   }
+  //    dispatch(setFormData(formData));
+  // };
+
+const handleChange = (e) => {
+  const { name, value, files } = e.target;
+  // Check if the input is a file (image input)
+  if (files && files.length > 0) {
+    dispatch(setFormData({ ...formData, [name]: files[0] })); // Use the spread operator to update the specific field
+  } else {
+    dispatch(setFormData({ ...formData, [name]: value })); // Use the spread operator to update the specific field
+  }
+};
+
+  const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     const formDataToSend = new FormData();
@@ -40,15 +53,17 @@ const Register = () => {
 
     console.log(Object.fromEntries(formDataToSend)); // Display form data on the console
 
-    try {
-      // axios
-      //   .post("http://localhost:5000/api/v1/users", formDataToSend)
-      //   .then((respponse) => {
-      //     alert("success fully registerd");
-      //   });
-    } catch (error) {
-      console.log(error);
-    }
+     try {
+       const response = await registerUser(formData);
+       dispatch(setRegistrationStatus(response.data)); // Dispatch action to update registration status in Redux store
+       // ... handle success case ...
+        if (response.data.registrationStatus) {
+          navigate("/login");
+        }
+     } catch (error) {
+       dispatch(setError(error.message)); // Dispatch action to update error in Redux store
+       // ... handle error case ...
+     }
   };
 
   return (
@@ -57,6 +72,9 @@ const Register = () => {
         <div className="shadow-xl">
           <h3 className="text-4xl font-bold text-blue-400">Equb</h3>
         </div>
+        {
+          error && (<div className="mt-5"><p className="text-red-500">{error}</p></div>)
+        }
         <div className="w-[100vw] flex flex-col px-6 py-4 mt-6 overflow-hidden bg-gray-100 shadow-md border-t-gray-400 sm:max-w-lg sm:rounded-lg">
           <form className="" onSubmit={handleSubmit}>
             <div className="flex items-center justify-center gap-5">
