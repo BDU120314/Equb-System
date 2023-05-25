@@ -48,10 +48,14 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
+      if (password.length < 6) {
+        throw new Error("Password must be at least 6 characters long.");
+      }
+
       await loginUser(phoneNumber, password);
       dispatch(setLoggedIn(true));
       if (loggedIn) {
@@ -80,7 +84,7 @@ const Login = () => {
       </div>
       <div className="flex justify-center items-center bg-white rounded-lg text-black shadow-xl p-14">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleLogin}
           action=""
           className="flex justify-center flex-col items-center w-full gap-8 px-4"
         >
