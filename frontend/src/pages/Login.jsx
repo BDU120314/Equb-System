@@ -40,16 +40,29 @@ const Login = () => {
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
     if (name === "phone") {
-      dispatch(setPhoneNumber(value));
+      // Validate phone number
+      const phoneRegex = /^[0-9]{10}$/; // Match 10-digit phone number
+      if (phoneRegex.test(value)) {
+        dispatch(setPhoneNumber(value));
+      } else {
+        dispatch(setPhoneNumber("")); // Clear the phone number field
+        toast.error("Phone number must be a 10-digit number.");
+      }
     } else if (name === "password") {
-      dispatch(setPassword(value));
+      // Validate password
+      if (value.length >= 6) {
+        dispatch(setPassword(value));
+      } else {
+        dispatch(setPassword("")); // Clear the password field
+        toast.error("Password must be at least 6 characters long.");
+      }
     } else if (name === "rememberMe") {
       setRememberMe(checked); // Update the Remember Me state based on the checkbox value
     }
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     try {
       if (password.length < 6) {
