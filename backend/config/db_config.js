@@ -1,19 +1,20 @@
-require('dotenv').config();
+
 const mongoose = require("mongoose");
-const MONGO_URL = process.env.MONGO_URL; 
-const connectDb=async()=>{
-    try {
-        const DBConnection = await mongoose.connect(
-          "mongodb+srv://mulukendemis44:vLJVxyUh6ZtBNf3Y@equbcluster.lscxndg.mongodb.net/",
-          {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-          }
-        );
-        console.log(" CONENECTED to mango databese ");
-    } catch (error) {
-        console.log(error)
-    }
-  
-}
-module.exports = connectDb;
+
+const MONGO_DB_URL = process.env.MONGO_DB_URL;
+
+const connectToDB = async () => {
+  try {
+    const DBConnection = await mongoose.connect(MONGO_DB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    console.log("connected to database");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = connectToDB;
+

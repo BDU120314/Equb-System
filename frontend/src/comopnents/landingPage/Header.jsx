@@ -60,7 +60,7 @@ const Header = () => {
               </li>
               <li className="flex items-center">
                 <NavLink
-                  to="/services"
+                  to="/dashboard"
                   className={`px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-black hover:text-gray-400 hover:opacity-75 ${
                     location.pathname === "/services" ? "text-gray-400" : ""
                   }`}

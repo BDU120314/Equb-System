@@ -1,27 +1,17 @@
 const express = require("express");
 const {
-  getEqubUsers,
-  getSingleUser,
+
   createEqubUser,
   updateEqubUser,
   deleteEqubUser,
 } = require("../controller/equbController");
+
+const upload = require("../config/multer");
+
 const userRouter = express.Router();
 
-// get files
+const userSchema = require("../middleware/validation-middleware");
 
-userRouter.get("/", getEqubUsers);
-
-// get single files
-
-userRouter.get("/:id", getSingleUser);
-
-//creating files
-userRouter.post("/", createEqubUser);
-
-//updating request
-
-userRouter.patch("/:id", updateEqubUser);
 
 //delete requests
 
