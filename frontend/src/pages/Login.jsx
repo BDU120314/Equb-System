@@ -40,31 +40,22 @@ const Login = () => {
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
     if (name === "phone") {
-      // Validate phone number
-      const phoneRegex = /^[0-9]{10}$/; // Match 10-digit phone number
-      if (phoneRegex.test(value)) {
-        dispatch(setPhoneNumber(value));
-      } else {
-        dispatch(setPhoneNumber("")); // Clear the phone number field
-        toast.error("Phone number must be a 10-digit number.");
-      }
+      dispatch(setPhoneNumber(value));
     } else if (name === "password") {
-      // Validate password
-      if (value.length >= 6) {
-        dispatch(setPassword(value));
-      } else {
-        dispatch(setPassword("")); // Clear the password field
-        toast.error("Password must be at least 6 characters long.");
-      }
+      dispatch(setPassword(value));
     } else if (name === "rememberMe") {
-      setRememberMe(checked); // Update the Remember Me state based on the checkbox value
+      setRememberMe(checked);
     }
   };
 
   const handleLogin = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
 
     try {
+      if (phoneNumber.length !== 10) {
+        throw new Error("Phone number must be a 10-digit number.");
+      }
+
       if (password.length < 6) {
         throw new Error("Password must be at least 6 characters long.");
       }
@@ -80,7 +71,15 @@ const Login = () => {
         navigate("/dashboard");
       }
     } catch (error) {
-      dispatch(setError(error.message));
+      let errorMessage = error.message;
+
+      if ((error.message = "Password must be at least 6 characters long.")) //{
+      //   errorMessage =
+      //     "Incorrect password.Password must be at least 6 characters long.";
+      // }
+
+      dispatch(setError(errorMessage));
+      toast.error(errorMessage);
     }
   };
 
