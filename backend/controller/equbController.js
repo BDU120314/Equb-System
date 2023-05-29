@@ -1,4 +1,4 @@
-const userService = require("../services/UserService");
+
 
 //creating users
 const createEqubUser = async (req, res) => {
