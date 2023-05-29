@@ -28,30 +28,9 @@ const userSchema = mongoose.Schema(
       type: Array,
       unique: true,
     },
-    //   payments: [
-    //     {
-    //       time: {
-    //         type: Date,
-    //         default: Date.now,
-    //       },
-    //       amount: {
-    //         type: Number,
-    //
-    //       },
-    //     },
-    //   ],
-    //   payouts: [
-    //     {
-    //       time: {
-    //         type: Date,
-    //         default: Date.now,
-    //       },
-    //       amount: {
-    //         type: Number,
-    //
-    //       },
-    //     },
-    //   ],
+    joined_at: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );
