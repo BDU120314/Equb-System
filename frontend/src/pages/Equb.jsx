@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import Card from "../components/cards/Card";
+import Card from "../comopnents/cards/Card";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEqubType } from "../path/to/equbTypeSlice";
+import { fetchEqubType } from "../redux/reducers/equbTypeReducer";
 
 const Equb = () => {
   const dispatch = useDispatch();

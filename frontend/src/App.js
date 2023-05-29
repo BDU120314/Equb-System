@@ -12,6 +12,7 @@ import WeeklyEqub from "./comopnents/dashboard/equb/WeeklyEqub";
 import CustomEqub from "./comopnents/dashboard/equb/CustomEqub";
 import MonthlyEqub from "./comopnents/dashboard/equb/Monthly";
 import Equb from "./pages/Equb";
+import LandingPage from "./pages/LandingPage";
 
 
 const App = () => {
