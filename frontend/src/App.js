@@ -12,15 +12,16 @@ import WeeklyEqub from "./comopnents/dashboard/equb/WeeklyEqub";
 import CustomEqub from "./comopnents/dashboard/equb/CustomEqub";
 import MonthlyEqub from "./comopnents/dashboard/equb/Monthly";
 import Equb from "./pages/Equb";
-import LandingPage from "./pages/LandingPage";
-
 
 const App = () => {
   return (
 
     <div>
       <Routes>
-        <Route exact={true} path="/" element={<LandingPage />} />
+        <Route exact={true} path="/" element={<LandingPage />}>
+          <Route index element = {<Main />} />
+          <Route path="/equb" element = {<Equb />} />
+        </Route>
         <Route exact={true} path="/signUp" element={<Register />} />
         <Route exact={true} path="/login" element={<Login />} />
         <Route

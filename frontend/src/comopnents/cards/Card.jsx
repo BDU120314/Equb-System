@@ -1,5 +1,6 @@
 import React from "react";
 
+
 const Card = ({equbItem}) => {
   const { type, amount, No_member } = equbItem;
   return (
@@ -28,6 +29,7 @@ const Card = ({equbItem}) => {
         2 days ago {Date.now()}
       </div>
     </div>
+
   );
 };
 
