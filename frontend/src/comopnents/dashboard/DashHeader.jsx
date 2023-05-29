@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import logo from "../../assets/equb.png";
-import SideBar from "./SideBar";
+import profile from "../../assets/profile.jpg";
 
 const initialState = {
   searchQuery: "",
@@ -15,12 +15,12 @@ const DashHeader = () => {
 
   function toggleUserMenu() {
     setUserMenuOpen((prevState) => !prevState);
-    console.log("clicked");
   }
+
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
-    console.log("clicked");
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("search is done");
@@ -31,12 +31,13 @@ const DashHeader = () => {
       <nav className="fixed top-0 z-50 w-full bg-white text-black border-gray-200 dark:bg-gray-100 dark:border-gray-200 shadow-xl">
         <div className="px-3 py-3 lg:px-5 lg:pl-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center justify-center ">
+            <div className="flex items-center justify-center gap-2 ">
               <button
                 onClick={handleSidebarToggle}
                 data-drawer-target="logo-sidebar"
                 data-drawer-toggle="logo-sidebar"
                 aria-controls="logo-sidebar"
+                aria-expanded={isSidebarOpen}
                 type="button"
                 class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
               >
@@ -98,12 +99,9 @@ const DashHeader = () => {
                     type="button"
                     onClick={toggleUserMenu}
                     className="flex text-sm bg-gray-100 rounded-full dark:bg-white focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                    aria-expanded="false"
-                    data-dropdown-toggle="dropdown-user"
+                    aria-expanded={isUserMenuOpen}
+                    aria-controls="dropdown-user"
                   >
-                    <span className="sr-only dark:text-white">
-                      Open user menu
-                    </span>
                     <img
                       className="w-10 h-10 rounded-full"
                       src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
@@ -113,61 +111,70 @@ const DashHeader = () => {
                 </div>
                 {isUserMenuOpen && (
                   <div
-                    className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-300 rounded shadow dark:bg-gray-100 dark:divide-gray-400"
+                    className="z-50 absolute right-0 mt-[380px] py-1 w-[200px]flex flex-col items-center justify-center gap-5 bg-gray-50  rounded shadow dark:bg-gray-100 "
                     id="dropdown-user"
                   >
-                    <div className="px-4 py-3" role="none">
+                    <div
+                      className="px-4 py-3 flex items-center justify-center flex-col gap-2"
+                      role="none"
+                    >
+                      <img
+                        src={profile}
+                        className="w-[80px] h-[80px] rounded-full"
+                        alt=""
+                      />
                       <p
-                        className="text-sm text-gray-900 dark:text-black"
+                        className="text-sm text-gray-900 dark:text-gray-900 font-normal italic"
                         role="none"
                       >
-                        Neil Sims
+                        user Name
                       </p>
                       <p
-                        className="text-sm font-medium text-gray-900 truncate dark:text-black"
+                        className="text-sm font-medium text-gray-900 truncate dark:text-gray-700"
                         role="none"
                       >
-                        neil.sims@flowbite.com
+                        phone number
                       </p>
                     </div>
-                    <ul className="py-1" role="none">
-                      <li>
-                        <Link
-                          to="#"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                          role="menuitem"
-                        >
-                          Dashboard
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                          role="menuitem"
-                        >
-                          Settings
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                          role="menuitem"
-                        >
-                          Earnings
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                          role="menuitem"
-                        >
-                          Sign out
-                        </Link>
-                      </li>
-                    </ul>
+                    <hr className="h-1  bg-gray-300 w-full" />
+
+                    <div className="flex mt-2">
+                      <ul
+                        className="flex justify-center items-center gap-5 px-3"
+                        role="none"
+                      >
+                        <li>
+                          <Link
+                            to="#"
+                            className="block px-[10px] py-1 text-sm text-blue-500 text-center hover:bg-gray-100 dark:text-blue-500 dark:hover:bg-gray-200 dark:hover:text-blue-500"
+                            role="menuitem"
+                          >
+                            Password
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="#"
+                            className="block px-2  py-1 text-sm text-blue-500 hover:bg-gray-200 dark:text-blue-500 dark:hover:bg-gray-200 dark:hover:text-blue-700"
+                            role="menuitem"
+                          >
+                            Payment Method
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="#"
+                            className="block  py-1 px-2 text-sm text-blue-400 hover:bg-gray-200 dark:text-blue-500 dark:hover:bg-gray-200 dark:hover:text-blue-300"
+                            role="menuitem"
+                          >
+                            Address
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="text-center my-10 cursor-pointer">
+                      <span className="px-5 py-2 bg-red-300 rounded-md hover:bg-red-200">Logout</span>
+                    </div>
                   </div>
                 )}
               </div>
@@ -175,7 +182,6 @@ const DashHeader = () => {
           </div>
         </div>
       </nav>
-      {isSidebarOpen && <SideBar />}
     </div>
   );
 };
