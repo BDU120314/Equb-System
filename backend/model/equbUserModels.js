@@ -28,33 +28,9 @@ const userSchema = mongoose.Schema(
       type: Array,
       unique: true,
     },
-
-    //   payments: [
-    //     {
-    //       time: {
-    //         type: Date,
-    //         default: Date.now,
-    //       },
-    //       amount: {
-    //         type: Number,
-    //
-    //       },
-    //     },
-    //   ],
-    //   payouts: [
-    //     {
-    //       time: {
-    //         type: Date,
-    //         default: Date.now,
-    //       },
-    //       amount: {
-    //         type: Number,
-    //
-    //       },
-    //     },
-    //   ],
-  })
+  },
+  { timestamps: true }
+);
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
-

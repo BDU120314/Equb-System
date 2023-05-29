@@ -7,8 +7,14 @@ import "react-toastify/dist/ReactToastify.css";
 import ForgotPassword from "./pages/ForgotPassword";
 import Dashboard from "./pages/Dashboard";
 import Page404 from "./pages/404";
+import MainContent from "./comopnents/dashboard/MainContent";
+import DailyEqub from "./comopnents/dashboard/equb/DailyEqub";
+import WeeklyEqub from "./comopnents/dashboard/equb/WeeklyEqub";
+import CustomEqub from "./comopnents/dashboard/equb/CustomEqub";
+import MonthlyEqub from "./comopnents/dashboard/equb/Monthly";
+import Equb from "./pages/Equb";
 
-function App() {
+const App = () => {
   return (
     <div>
       <Routes>
@@ -20,8 +26,16 @@ function App() {
           path="/forgotPassword"
           element={<ForgotPassword />}
         />
-        <Route exact={true} path="/Dashboard" element={<Dashboard />} />
-        <Route path="*" element={<Page404 />}/>
+
+        <Route path="/equb" element = {<Equb />} />
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="/dashboard/dailyEqub" element={<DailyEqub />} />
+          <Route path="/dashboard/weeklyEqub" element={<WeeklyEqub />} />
+          <Route path="/dashboard/monthlyEqub" element={<MonthlyEqub />} />
+          <Route path="/dashboard/customEqub" element={<CustomEqub />} />
+          <Route index element={<MainContent />} />
+        </Route>
+        <Route path="*" element={<Page404 />} />
       </Routes>
       <ToastContainer />
     </div>
