@@ -1,7 +1,6 @@
 const express = require("express");
 const {
-  getEqubUser,
-  getEqubUserById,
+
   createEqubUser,
   updateEqubUser,
   deleteEqubUser,
@@ -13,14 +12,9 @@ const userRouter = express.Router();
 
 const userSchema = require("../middleware/validation-middleware");
 
-userRouter.get("/get", getEqubUser);
 
-userRouter.get("/get/:id", getEqubUserById);
+//delete requests
 
-userRouter.post("/create", upload.array("ID", 8), createEqubUser);
-
-userRouter.patch("/update/:id", upload.array("ID", 8), updateEqubUser);
-
-userRouter.delete("/delete/:id", deleteEqubUser);
+userRouter.delete("/:id", deleteEqubUser);
 
 module.exports = userRouter;

@@ -28,11 +28,9 @@ const userSchema = mongoose.Schema(
       type: Array,
       unique: true,
     },
-    joined_at: {
-      type: Date,
-    },
   },
   { timestamps: true }
 );
+const User = mongoose.model("User", userSchema);
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = User;

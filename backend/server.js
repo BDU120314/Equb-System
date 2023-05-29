@@ -1,4 +1,3 @@
-const express = require("express");
 require("dotenv").config();
 const path = require("path");
 const routes = require("./Routes/router");
@@ -9,15 +8,9 @@ const groupMemberRouter = require("./Routes/groupMemberRoute");
 const cors = require("cors");
 //const User = require("./model/equbUserModels");
 const connectToDB = require("./config/db_config");
-
-const app = express();
+const app = require(".");
 
 const port = process.env.PORT || 5003;
-
-connectToDB();
-
-app.use(express.json({ limit: "100mb" }));
-app.use(express.urlencoded({ limit: "100mb", extended: true }));
 
 app.use("/api/v1/users", routes);
 app.use("/api/v1/groups", equbGroupRouter);
@@ -35,6 +28,25 @@ app.use("/api/v1/members", groupMemberRouter);
 // const storeItems = new Map([
 //   [1, { priceInCents: 10000, name: "Pay Equb Payment" }],
 // ]);
+
+// app.put("/User/:id", async (req, res) => {
+//   const account = await User.findByIdAndUpdate(req.params.id, req.body, {
+//     new: true,
+//   });
+//   res.json(account);
+// });
+
+// app.delete("/User/:id", async (req, res) => {
+//   await User.findByIdAndDelete(req.params.id);
+//   res.json({ message: "Account deleted successfully." });
+// });
+
+// app.delete('/gebre/:id',(req,res)=>{
+//   res.send('successfully deleted')
+// })
+// app.patch('/:id',(req,res)=>{
+//  res.send('correctly updated')
+// })
 
 // app.post("/create-checkout-session", async (req, res) => {
 //   try {
