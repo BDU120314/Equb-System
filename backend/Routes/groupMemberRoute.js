@@ -9,14 +9,14 @@ const {
 } = require("../controller/groupMemberController");
 
 // GroupMember Routes
-groupMemberRouter.post("/groupMembers", createGroupMember);
+groupMemberRouter.post("/", createGroupMember);
 
-groupMemberRouter.get("/groupMembers/:groupMemberId", getGroupMemberById);
+groupMemberRouter.get("/:groupMemberId", getGroupMemberById);
 
-groupMemberRouter.get("/groupMembers", getAllGroupMembers);
+groupMemberRouter.get("/", getAllGroupMembers);
 
-groupMemberRouter.put("/groupMembers/:groupMemberId", updateGroupMember);
+groupMemberRouter.put("/:groupMemberId", updateGroupMember);
 
-groupMemberRouter.delete("/groupMembers/:groupMemberId", deleteGroupMember);
+groupMemberRouter.delete("/:groupMemberId", deleteGroupMember);
 
 module.exports = groupMemberRouter;

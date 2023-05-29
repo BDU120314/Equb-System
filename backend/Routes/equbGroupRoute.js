@@ -9,14 +9,14 @@ const {
 } = require("../controller/equbGroupController");
 
 // Group Routes
-equbGroupRouter.post("/groups", createGroup);
+equbGroupRouter.post("/", createGroup);
 
-equbGroupRouter.get("/groups/:groupId", getGroupById);
+equbGroupRouter.get("/:groupId", getGroupById);
 
-equbGroupRouter.get("/groups", getAllGroups);
+equbGroupRouter.get("/", getAllGroups);
 
-equbGroupRouter.put("/groups/:groupId", updateGroup);
+equbGroupRouter.put("/:groupId", updateGroup);
 
-equbGroupRouter.delete("/groups/:groupId", deleteGroup);
+equbGroupRouter.delete("/:groupId", deleteGroup);
 
 module.exports = equbGroupRouter;

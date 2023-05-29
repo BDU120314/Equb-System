@@ -8,13 +8,13 @@ const {
   deleteEqubType,
 } = require("../controller/equbTypeController");
 
-equbTypeRouter.post("/equb-types", createEqubType);
+equbTypeRouter.post("/", createEqubType);
 
-equbTypeRouter.get("/equb-types/:equbTypeId", getEqubTypeById);
+equbTypeRouter.get("/:equbTypeId", getEqubTypeById);
 
-equbTypeRouter.get("/equb-types", getAllEqubTypes);
+equbTypeRouter.get("/", getAllEqubTypes);
 
-equbTypeRouter.put("/equb-types/:equbTypeId", updateEqubType);
-equbTypeRouter.delete("/equb-types/:equbTypeId", deleteEqubType);
+equbTypeRouter.put("/:equbTypeId", updateEqubType);
+equbTypeRouter.delete("/:equbTypeId", deleteEqubType);
 
 module.exports = equbTypeRouter;

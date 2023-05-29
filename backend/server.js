@@ -2,7 +2,7 @@ const express = require("express");
 
 require("dotenv").config();
 const path = require("path");
-const routes = require("./Routes/router");
+const equbUserRoute = require("./Routes/equbUserRoute");
 const equbGroupRouter = require("./Routes/equbGroupRoute");
 const equbTypeRouter = require("./Routes/equbTypeRoute");
 const groupMemberRouter = require("./Routes/groupMemberRoute");
@@ -21,7 +21,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 const port = process.env.PORT || 5003;
 
-app.use("/api/v1/users", routes);
+app.use("/api/v1/users", equbUserRoute);
 app.use("/api/v1/groups", equbGroupRouter);
 app.use("/api/v1/types", equbTypeRouter);
 app.use("/api/v1/members", groupMemberRouter);
