@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import Card from "../comopnents/cards/Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -89,6 +87,7 @@ const Equb = () => {
         ))}
       </div>
       <ToastContainer />
+
     </div>
   );
 };
