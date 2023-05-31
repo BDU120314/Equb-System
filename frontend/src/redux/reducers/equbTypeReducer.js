@@ -4,9 +4,7 @@ import axios from "axios";
  const fetchEqubType = createAsyncThunk(
   "equb/fetchEqubType",
   async () => {
-
-    
-
+const response = await axios.get("http://localhost:5003/api/v1/types");
     return response.data;
   }
 );

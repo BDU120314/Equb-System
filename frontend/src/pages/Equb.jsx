@@ -42,6 +42,7 @@ const Equb = () => {
   useEffect(() => {
     dispatch(fetchEqubType());
   }, [dispatch]);
+  
   console.log(equbType);
   if (loading) {
     return <div>Loading...</div>;
