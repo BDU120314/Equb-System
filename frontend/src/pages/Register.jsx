@@ -32,38 +32,64 @@ const error = useSelector((state) => state.register.error);
   //    dispatch(setFormData(formData));
   // };
 
-const handleChange = (e) => {
-  const { name, value, files } = e.target;
-  // Check if the input is a file (image input)
-  if (files && files.length > 0) {
-    dispatch(setFormData({ ...formData, [name]: files[0] })); // Use the spread operator to update the specific field
-  } else {
-    dispatch(setFormData({ ...formData, [name]: value })); // Use the spread operator to update the specific field
-  }
-};
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (files && files.length > 0) {
+      dispatch(setFormData({ ...formData, [name]: files[0] }));
+    } else {
+      dispatch(setFormData({ ...formData, [name]: value }));
+    }
+  };
+
+  const validatePhoneNumber = (phoneNumber) => {
+    const phoneNumberRegex = /^\d{10}$/;
+    return phoneNumberRegex.test(phoneNumber);
+  };
+
+  const validatePassword = (password) => {
+    return password.length > 6;
+  };
+
+  const validateFileExtension = (file) => {
+    const allowedExtensions = ["jpg", "jpeg", "png"];
+    const fileExtension = file.name.split(".").pop();
+    return allowedExtensions.includes(fileExtension.toLowerCase());
+  };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
+
+    const { phone_number, password, image } = formData;
+
+    if (!validatePhoneNumber(phone_number)) {
+      dispatch(setError("Phone number must be a 10-digit positive integer."));
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      dispatch(setError("Password must be greater than 6 characters."));
+      return;
+    }
+
+    if (image && !validateFileExtension(image)) {
+      dispatch(setError("ID card must be in JPG, JPEG, or PNG format."));
+      return;
+    }
 
     const formDataToSend = new FormData();
     for (const key in formData) {
       formDataToSend.append(key, formData[key]);
     }
 
-    console.log(Object.fromEntries(formDataToSend)); // Display form data on the console
-
-     try {
-       const response = await registerUser(formData);
-       dispatch(setRegistrationStatus(response.data)); // Dispatch action to update registration status in Redux store
-       // ... handle success case ...
-        if (response.data.registrationStatus) {
-          navigate("/login");
-        }
-     } catch (error) {
-       dispatch(setError(error.message)); // Dispatch action to update error in Redux store
-       // ... handle error case ...
-     }
+    try {
+      const response = await registerUser(formData);
+      dispatch(setRegistrationStatus(response.data));
+      if (response.data.registrationStatus) {
+        navigate("/login");
+      }
+    } catch (error) {
+      dispatch(setError(error.message));
+    }
   };
 
   return (

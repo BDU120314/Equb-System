@@ -4,7 +4,9 @@ import axios from "axios";
  const fetchEqubType = createAsyncThunk(
   "equb/fetchEqubType",
   async () => {
-    const response = await axios.get("http://localhost:5003/api/v1/types");
+
+    
+
     return response.data;
   }
 );
@@ -13,6 +15,7 @@ import axios from "axios";
   "equb/addEqubType",
   async (equbTypeData) => {
     const response = await axios.post(
+
       "http://localhost:5003/api/v1/types",
       equbTypeData
     );
@@ -23,6 +26,7 @@ import axios from "axios";
  const deleteEqubType = createAsyncThunk(
   "equb/deleteEqubType",
   async (equbTypeId) => {
+
     await axios.delete(`http://localhost:5003/api/v1/types/${equbTypeId}`);
     return equbTypeId;
   }
@@ -32,6 +36,7 @@ import axios from "axios";
   "equb/updateEqubType",
   async ({ equbTypeId, equbTypeData }) => {
     const response = await axios.put(
+
       `http://localhost:5003/api/v1/types/${equbTypeId}`,
       equbTypeData
     );

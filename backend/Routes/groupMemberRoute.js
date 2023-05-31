@@ -8,7 +8,6 @@ const {
   deleteGroupMember,
 } = require("../controller/groupMemberController");
 
-// GroupMember Routes
 groupMemberRouter.post("/", createGroupMember);
 
 groupMemberRouter.get("/:groupMemberId", getGroupMemberById);

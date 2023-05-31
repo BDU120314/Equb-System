@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from "react";
 import Card from "../comopnents/cards/Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -5,7 +7,6 @@ import { fetchEqubType } from "../redux/reducers/equbTypeReducer";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaSearch } from "react-icons/fa";
-
 const Equb = () => {
   const dispatch = useDispatch();
   const equbType = useSelector((state) => state.equb.equbType);

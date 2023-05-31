@@ -15,6 +15,7 @@ equbTypeRouter.get("/:equbTypeId", getEqubTypeById);
 equbTypeRouter.get("/", getAllEqubTypes);
 
 equbTypeRouter.put("/:equbTypeId", updateEqubType);
+
 equbTypeRouter.delete("/:equbTypeId", deleteEqubType);
 
 module.exports = equbTypeRouter;
