@@ -38,20 +38,28 @@ const Login = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value ,checked} = e.target;
+    const { name, value, checked } = e.target;
     if (name === "phone") {
       dispatch(setPhoneNumber(value));
     } else if (name === "password") {
       dispatch(setPassword(value));
     } else if (name === "rememberMe") {
-      setRememberMe(checked); // Update the Remember Me state based on the checkbox value
+      setRememberMe(checked);
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
+      if (phoneNumber.length !== 10) {
+        throw new Error("Phone number must be a 10-digit number.");
+      }
+
+      if (password.length < 6) {
+        throw new Error("Password must be at least 6 characters long.");
+      }
+
       await loginUser(phoneNumber, password);
       dispatch(setLoggedIn(true));
       if (loggedIn) {
@@ -63,7 +71,15 @@ const Login = () => {
         navigate("/dashboard");
       }
     } catch (error) {
-      dispatch(setError(error.message));
+      let errorMessage = error.message;
+
+      if ((error.message = "Password must be at least 6 characters long.")) //{
+      //   errorMessage =
+      //     "Incorrect password.Password must be at least 6 characters long.";
+      // }
+
+      dispatch(setError(errorMessage));
+      toast.error(errorMessage);
     }
   };
 
@@ -80,7 +96,7 @@ const Login = () => {
       </div>
       <div className="flex justify-center items-center bg-white rounded-lg text-black shadow-xl p-14">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleLogin}
           action=""
           className="flex justify-center flex-col items-center w-full gap-8 px-4"
         >
