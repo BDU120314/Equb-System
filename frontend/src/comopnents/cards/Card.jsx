@@ -26,6 +26,7 @@ const Card = ({ type, amount, No_member }) => {
         2 days ago {Date.now()}
       </div>
     </div>
+
   );
 };
 

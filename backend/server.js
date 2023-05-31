@@ -44,24 +44,14 @@ module.exports = app;
 //   [1, { priceInCents: 10000, name: "Pay Equb Payment" }],
 // ]);
 
-// app.put("/User/:id", async (req, res) => {
-//   const account = await User.findByIdAndUpdate(req.params.id, req.body, {
-//     new: true,
-//   });
-//   res.json(account);
-// });
+app.use("/api/v1/users", routes);
+// app.use("/notifications", notificationRoute);
 
-// app.delete("/User/:id", async (req, res) => {
-//   await User.findByIdAndDelete(req.params.id);
-//   res.json({ message: "Account deleted successfully." });
-// });
-
-// app.delete('/gebre/:id',(req,res)=>{
-//   res.send('successfully deleted')
-// })
-// app.patch('/:id',(req,res)=>{
-//  res.send('correctly updated')
-// })
+app.use(
+  cors({
+    origin: "http://localhost:5500",
+  })
+);
 
 // app.post("/create-checkout-session", async (req, res) => {
 //   try {

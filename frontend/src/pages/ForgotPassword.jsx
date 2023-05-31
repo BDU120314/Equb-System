@@ -14,7 +14,7 @@ const ForgotPassword = () => {
   const phoneNumber = useSelector((state) => state.auth.phoneNumber);
   const password = useSelector((state) => state.auth.password);
   const confirmPassword = useSelector((state) => state.auth.confirmPassword);
-  const acceptTerms = useSelector((state)=>state.auth.acceptTerms)
+  const acceptTerms = useSelector((state) => state.auth.acceptTerms);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -37,9 +37,21 @@ const ForgotPassword = () => {
     const { value } = e.target;
     dispatch(setConfirmPassword(value));
   };
-  const handleAcceptTermschange = (e) => {
-    const { value } = e.target;
-    dispatch(setAcceptTerms(value));
+  
+  const handleAcceptTermsChange = (e) => {
+    const { checked } = e.target;
+    dispatch(setAcceptTerms(checked));
+  };
+
+  const validatePhoneNumber = (value) => {
+    // Validate that the phone number is a positive integer and has ten digits
+    const phoneNumberRegex = /^[0-9]{10}$/;
+    return phoneNumberRegex.test(value);
+  };
+
+  const validatePassword = (value) => {
+    // Validate that the password has at least six digits
+    return value.length >= 6;
   };
 
   return (
@@ -71,11 +83,15 @@ const ForgotPassword = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg outline-none focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="+251**********"
                   required={true}
+                  pattern="[0-9]{10}" // Added pattern attribute for HTML5 validation
+                  title="Please enter a 10-digit positive integer"
+                  minLength={10} // Added minLength attribute for HTML5 validation
+                  maxLength={10} // Added maxLength attribute for HTML5 validation
                 />
               </div>
               <div>
                 <label
-                  for="password"
+                  htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-600"
                 >
                   New Password
@@ -89,11 +105,12 @@ const ForgotPassword = () => {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg outline-none focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-500 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required={true}
+                  minLength={6} // Added minLength attribute for HTML5 validation
                 />
               </div>
               <div>
                 <label
-                  for="confirm-password"
+                  htmlFor="confirm-password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-600"
                 >
                   Confirm password
@@ -107,6 +124,7 @@ const ForgotPassword = () => {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg outline-none focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required={true}
+                  minLength={6} // Added minLength attribute for HTML5 validation
                 />
               </div>
               <div className="flex items-start">
@@ -117,14 +135,14 @@ const ForgotPassword = () => {
                     type="checkbox"
                     name="acceptTerms"
                     checked={acceptTerms}
-                    onChange={handleAcceptTermschange}
+                    onChange={handleAcceptTermsChange}
                     className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
                     required={true}
                   />
                 </div>
                 <div className="ml-3 text-sm">
                   <label
-                    for="newsletter"
+                    htmlFor="newsletter"
                     className="font-light text-gray-800 dark:text-gray-800"
                   >
                     I accept the{" "}
@@ -142,7 +160,7 @@ const ForgotPassword = () => {
                 type="submit"
                 className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                Reset passwod
+                Reset password
               </button>
             </form>
           </div>
