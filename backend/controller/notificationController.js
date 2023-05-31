@@ -3,7 +3,7 @@ const Notification = require("../model/notificationModel");
 exports.getNotifications = async (req, res) => {
   try {
     const notifications = await Notification.find({ user: req.user._id }).sort(
-      "-createdAt"
+      "createdAt"
     );
     res.json(notifications);
   } catch (err) {

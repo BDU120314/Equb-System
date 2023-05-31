@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import Card from "../components/cards/Card";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEqubType } from "../path/to/equbTypeSlice";
+import { fetchEqubType } from "../redux/reducers/equbTypeReducer";
+import Card from "../comopnents/cards/Card";
 
 const Equb = () => {
   const dispatch = useDispatch();
@@ -24,7 +24,12 @@ const Equb = () => {
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-5 px-5 pt-[70px]">
       {equbType.map((equbItem) => (
-        <Card key={equbItem.id} equbItem={equbItem} />
+        <Card
+          key={equbItem.id}
+          title={equbItem.equb_type_name}
+          amount={equbItem.amount_of_deposit}
+          No_member={equbItem.number_of_members}
+        />
       ))}
     </div>
   );

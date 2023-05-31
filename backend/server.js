@@ -4,6 +4,7 @@ const notificationRoute = require("./Routes/notificationRoute");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const User = require("./model/equbUserModels");
+const notificationRouter = require("./Routes/notificationRoute");
 
 const app = express();
 
@@ -30,7 +31,7 @@ app.use(cors());
 // routes
 app.use(express.json());
 app.use("/api/v1/users", routes);
-app.use("/notifications", notificationRoute);
+app.use("/notifications", notificationRouter);
 
 app.listen(5000, () => {
   console.log(`server is running on port : ${port}`);
