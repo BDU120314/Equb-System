@@ -9,7 +9,7 @@ const groupMemberRouter = require("./Routes/groupMemberRoute");
 
 const cors = require("cors");
 const app = express();
-//const User = require("./model/equbUserModels");
+
 const connectToDB = require("./config/db_config");
 
 connectToDB();

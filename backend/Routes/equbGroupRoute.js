@@ -8,7 +8,6 @@ const {
   deleteGroup,
 } = require("../controller/equbGroupController");
 
-// Group Routes
 equbGroupRouter.post("/", createGroup);
 
 equbGroupRouter.get("/:groupId", getGroupById);
