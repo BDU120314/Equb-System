@@ -73,12 +73,13 @@ const Login = () => {
     } catch (error) {
       let errorMessage = error.message;
 
-      if ((error.message = "Password must be at least 6 characters long.")) //{
-      //   errorMessage =
-      //     "Incorrect password.Password must be at least 6 characters long.";
-      // }
+      if ((error.message = "Password must be at least 6 characters long."))
+        //{
+        //   errorMessage =
+        //     "Incorrect password.Password must be at least 6 characters long.";
+        // }
 
-      dispatch(setError(errorMessage));
+        dispatch(setError(errorMessage));
       toast.error(errorMessage);
     }
   };

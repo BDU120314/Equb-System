@@ -1,19 +1,21 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setFormData} from "../redux/reducers/registerReducer";
+import { setFormData } from "../redux/reducers/registerReducer";
 import { registerUser } from "../api/registerApi";
-import { setError, setRegistrationStatus } from "../redux/reducers/registerReducer";
+import {
+  setError,
+  setRegistrationStatus,
+} from "../redux/reducers/registerReducer";
 
 const Register = () => {
-
-const dispatch = useDispatch();
-const navigate = useNavigate();
-const formData = useSelector((state) => state.register.formData);
-// const registrationStatus = useSelector(
-//   (state) => state.register.registrationStatus
-// );
-const error = useSelector((state) => state.register.error);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const formData = useSelector((state) => state.register.formData);
+  // const registrationStatus = useSelector(
+  //   (state) => state.register.registrationStatus
+  // );
+  const error = useSelector((state) => state.register.error);
 
   // const handleChange = (e) => {
   //   const { name, value, files } = e.target;
@@ -50,11 +52,11 @@ const error = useSelector((state) => state.register.error);
     return password.length > 6;
   };
 
-  const validateFileExtension = (file) => {
-    const allowedExtensions = ["jpg", "jpeg", "png"];
-    const fileExtension = file.name.split(".").pop();
-    return allowedExtensions.includes(fileExtension.toLowerCase());
-  };
+  // const validateFileExtension = (file) => {
+  //   const allowedExtensions = ["jpg", "jpeg", "png"];
+  //   const fileExtension = file.name.split(".").pop();
+  //   return allowedExtensions.includes(fileExtension.toLowerCase());
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,10 +73,10 @@ const error = useSelector((state) => state.register.error);
       return;
     }
 
-    if (image && !validateFileExtension(image)) {
-      dispatch(setError("ID card must be in JPG, JPEG, or PNG format."));
-      return;
-    }
+    // if (image && !validateFileExtension(image)) {
+    //   dispatch(setError("ID card must be in JPG, JPEG, or PNG format."));
+    //   return;
+    // }
 
     const formDataToSend = new FormData();
     for (const key in formData) {
@@ -83,8 +85,9 @@ const error = useSelector((state) => state.register.error);
 
     try {
       const response = await registerUser(formData);
-      dispatch(setRegistrationStatus(response.data));
       if (response.data.registrationStatus) {
+        navigate("/dashboard");
+      } else {
         navigate("/login");
       }
     } catch (error) {
@@ -98,12 +101,14 @@ const error = useSelector((state) => state.register.error);
         <div className="shadow-xl">
           <h3 className="text-4xl font-bold text-blue-400">Equb</h3>
         </div>
-        {
-          error && (<div className="mt-5"><p className="text-red-500">{error}</p></div>)
-        }
+        {/* {error && (
+          <div className="mt-5">
+            <p className="text-red-500">{error}</p>
+          </div>
+        )} */}
         <div className="w-[100vw] flex flex-col px-6 py-4 mt-6 overflow-hidden bg-gray-100 shadow-md border-t-gray-400 sm:max-w-lg sm:rounded-lg">
           <form className="" onSubmit={handleSubmit}>
-            <div className="flex items-center justify-center gap-5">
+            <div className="flex items-center justify-center gap-10">
               <div>
                 <label
                   htmlFor="fname"
@@ -117,10 +122,10 @@ const error = useSelector((state) => state.register.error);
                   onChange={handleChange}
                   type="text"
                   name="fname"
-                  className="block w-[150px] mt-1 pl-2 border-gray-400 border rounded-md shadow-sm outline-none items-center focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="block w-half mt-1 pl-2 border-gray-400 border rounded-md shadow-sm outline-none items-center focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
-              <div>
+              {/* <div>
                 <label
                   htmlFor="mname"
                   className="block text-sm font-medium text-gray-700 undefined"
@@ -135,7 +140,7 @@ const error = useSelector((state) => state.register.error);
                   name="mname"
                   className="block w-[150px] mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
-              </div>
+              </div> */}
 
               <div>
                 <label
@@ -150,65 +155,122 @@ const error = useSelector((state) => state.register.error);
                   onChange={handleChange}
                   type="text"
                   name="lname"
-                  className="block w-[150px] mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="block w-half mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
             </div>
-            <div className="mt-4">
-              <label
-                htmlFor="phone"
-                className="block text-sm font-medium text-gray-700 undefined"
-              >
-                Phone_number
-              </label>
-              <div className="flex flex-col items-start">
-                <input
-                  value={formData.phone_number}
-                  onChange={handleChange}
-                  id="phone"
-                  type="tel"
-                  name="phone_number"
-                  className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                />
+            <div className="flex items-center justify-center gap-10">
+              <div className="mt-4">
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-medium text-gray-700 undefined"
+                >
+                  Phone_number
+                </label>
+                <div className="flex flex-col items-start">
+                  <input
+                    value={formData.phone_number}
+                    onChange={handleChange}
+                    id="phone"
+                    type="tel"
+                    name="phone_number"
+                    className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  />
+                </div>
+              </div>
+              <div className="mt-4">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700 undefined"
+                >
+                  Password
+                </label>
+                <div className="flex flex-col items-start">
+                  <input
+                    value={formData.password}
+                    onChange={handleChange}
+                    autoComplete="false"
+                    type="password"
+                    name="password"
+                    className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  />
+                </div>
               </div>
             </div>
-            <div className="mt-4">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700 undefined"
-              >
-                Password
-              </label>
-              <div className="flex flex-col items-start">
-                <input
-                  value={formData.password}
-                  onChange={handleChange}
-                  autoComplete="false"
-                  type="password"
-                  name="password"
-                  className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                />
+            <div className="flex items-center justify-center gap-10">
+              <div className="mt-4">
+                <label
+                  htmlFor="address"
+                  className="block text-sm font-medium text-gray-700 undefined"
+                >
+                  Address
+                </label>
+                <div className="flex flex-col items-start">
+                  <input
+                    value={formData.address}
+                    onChange={handleChange}
+                    type="text"
+                    name="address"
+                    className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  />
+                </div>
+              </div>
+              <div className="mt-4">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 undefined"
+                >
+                  Email
+                </label>
+                <div className="flex flex-col items-start">
+                  <input
+                    value={formData.email}
+                    onChange={handleChange}
+                    type="email"
+                    name="email"
+                    className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  />
+                </div>
               </div>
             </div>
+
             <div className="mt-4">
               <label
-                htmlFor="password_confirmation"
+                htmlFor="bank_account_no"
                 className="block text-sm font-medium text-gray-700 undefined"
               >
-                Address
+                bank_account_no
               </label>
               <div className="flex flex-col items-start">
                 <input
-                  value={formData.address}
+                  value={formData.bank_account_no}
                   onChange={handleChange}
-                  type="address"
-                  name="address"
-                  className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  type="text"
+                  name="bank_account_no"
+                  className="block w-full mt-1 mb-3 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
             </div>
 
-            <div>
+            <div className="mt-4">
+              <label
+                htmlFor="ID"
+                className="block text-sm font-medium text-gray-700 undefined"
+              >
+                ID
+              </label>
+              <div className="flex flex-col items-start">
+                <input
+                  value={formData.ID}
+                  onChange={handleChange}
+                  type="text"
+                  name="ID"
+                  className="block w-full mt-1 mb-3 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+              </div>
+            </div>
+
+            {/* <div>
               <label
                 htmlFor="id"
                 className="block text-sm font-medium text-gray-700 undefined"
@@ -225,7 +287,7 @@ const error = useSelector((state) => state.register.error);
                   className="block w-full mt-1 border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
-            </div>
+            </div> */}
 
             <div className="flex items-center mt-4">
               <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-400 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400">
