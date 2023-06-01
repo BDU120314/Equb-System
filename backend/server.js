@@ -1,5 +1,4 @@
 const express = require("express");
-
 require("dotenv").config();
 const path = require("path");
 const equbUserRoute = require("./Routes/equbUserRoute");

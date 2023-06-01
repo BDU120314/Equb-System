@@ -9,11 +9,10 @@ const response = await axios.get("http://localhost:5003/api/v1/types");
   }
 );
 
- const addEqubType = createAsyncThunk(
+const addEqubType = createAsyncThunk(
   "equb/addEqubType",
   async (equbTypeData) => {
     const response = await axios.post(
-
       "http://localhost:5003/api/v1/types",
       equbTypeData
     );
@@ -21,20 +20,18 @@ const response = await axios.get("http://localhost:5003/api/v1/types");
   }
 );
 
- const deleteEqubType = createAsyncThunk(
+const deleteEqubType = createAsyncThunk(
   "equb/deleteEqubType",
   async (equbTypeId) => {
-
     await axios.delete(`http://localhost:5003/api/v1/types/${equbTypeId}`);
     return equbTypeId;
   }
 );
 
- const updateEqubType = createAsyncThunk(
+const updateEqubType = createAsyncThunk(
   "equb/updateEqubType",
   async ({ equbTypeId, equbTypeData }) => {
     const response = await axios.put(
-
       `http://localhost:5003/api/v1/types/${equbTypeId}`,
       equbTypeData
     );
