@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import Card from "../comopnents/cards/Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +14,6 @@ const Equb = () => {
 
   const [queries, setQueries] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,7 +40,7 @@ const Equb = () => {
   useEffect(() => {
     dispatch(fetchEqubType());
   }, [dispatch]);
-  console.log(equbType);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -52,10 +50,9 @@ const Equb = () => {
   }
 
   return (
-    <div className="flex flex-col relative justify-center items-center  pt-[100px] pb-20">
-      <div className="justify-center z-[20] items-center flex fixed top-[80px]  left-auto">
+    <div>
+      <div className="flex justify-center items-center pt-8">
         <form
-          action=""
           onSubmit={handleSubmit}
           className="flex items-center justify-center"
         >
@@ -67,25 +64,20 @@ const Equb = () => {
               setQueries(e.target.value);
             }}
             type="text"
-            className="bg-gray-100 w-[250px] outline-none border-2 border-gray-300 pl-3 lg:w-[350px] h-10 rounded-[5px] placeholder:text-[18px] leading-4 font-normal"
-            placeholder="search here..."
+            className="bg-gray-100 w-64 lg:w-80 h-10 outline-none border-2 border-gray-300 pl-3 rounded-l-md placeholder:text-sm leading-4 font-normal"
+            placeholder="Search here..."
           />
           <button
             type="submit"
-            className="bg-blue-400 h-10 flex px-[14px] justify-center items-center rounded-tr-[5px] rounded-br-[5px] cursor-pointer"
+            className="bg-blue-400 h-10 px-4 rounded-r-md cursor-pointer"
           >
             <FaSearch color="white" />
           </button>
         </form>
       </div>
-      <div className="grid md:grid-cols-2 overflow-x-hidden lg:grid-cols-3 xl:grid-cols-4  place-items-center gap-10 px-5  align-middle">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
         {(filteredData.length > 0 ? filteredData : equbType).map((equbItem) => (
-          <Card
-            key={equbItem._id}
-            amount={equbItem.amount_of_deposit}
-            type={equbItem.equb_type_name}
-            No_member={equbItem.number_of_members}
-          />
+          <Card key={equbItem.id} equbItem={equbItem} />
         ))}
       </div>
       <ToastContainer />

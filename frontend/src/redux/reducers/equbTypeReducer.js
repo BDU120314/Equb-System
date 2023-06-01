@@ -5,7 +5,9 @@ import axios from "axios";
   "equb/fetchEqubType",
   async () => {
 
-    
+    const response = await axios.post(
+
+      "http://localhost:5003/api/v1/types",)
 
     return response.data;
   }
