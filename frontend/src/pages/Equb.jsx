@@ -1,5 +1,4 @@
 
-
 import React, { useEffect, useState } from "react";
 import Card from "../comopnents/cards/Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -53,27 +52,25 @@ const Equb = () => {
   }
 
   return (
-    <div className="flex flex-col relative justify-center items-center  pt-[100px] pb-20">
-      <div className="justify-center z-[20] items-center flex fixed top-[80px]  left-auto">
+    <div className="flex flex-col items-center justify-center gap-10 h-full">
+      <div className="flex items-center justify-center rounded-[5px]">
         <form
           action=""
           onSubmit={handleSubmit}
-          className="flex items-center justify-center"
+          className="flex items-center fixed justify-center lg:mr-48 ml-48  lg:ml-0  -mt-[75px]  z-20 "
         >
           <input
             id="search"
-            name="queries"
+            name="search"
             value={queries}
-            onChange={(e) => {
-              setQueries(e.target.value);
-            }}
+            onChange={(e) => setQueries(e.target.value)}
             type="text"
-            className="bg-gray-100 w-[250px] outline-none border-2 border-gray-300 pl-3 lg:w-[350px] h-10 rounded-[5px] placeholder:text-[18px] leading-4 font-normal"
-            placeholder="search here..."
+            className="bg-gray-100 w- outline-none border-2 border-gray-300 pl-3 lg:w-[350px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal "
+            placeholder="search here...."
           />
           <button
             type="submit"
-            className="bg-blue-400 h-10 flex px-[14px] justify-center items-center rounded-tr-[5px] rounded-br-[5px] cursor-pointer"
+            className="bg-blue-400 h-10 flex px-[14px] justify-center items-center rounded-tr-[10px] rounded-br-[10px] cursor-pointer"
           >
             <FaSearch color="white" />
           </button>
