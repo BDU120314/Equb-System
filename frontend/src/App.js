@@ -17,12 +17,11 @@ import Main from "./comopnents/landingPage/Main";
 
 const App = () => {
   return (
-
     <div>
       <Routes>
         <Route exact={true} path="/" element={<LandingPage />}>
-          <Route index element = {<Main />} />
-          <Route path="/equb" element = {<Equb />} />
+          <Route index element={<Main />} />
+          <Route path="/equb" element={<Equb />} />
         </Route>
         <Route exact={true} path="/signUp" element={<Register />} />
         <Route exact={true} path="/login" element={<Login />} />
@@ -32,7 +31,7 @@ const App = () => {
           element={<ForgotPassword />}
         />
 
-        <Route path="/equb" element = {<Equb />} />
+        <Route path="/equb" element={<Equb />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="/dashboard/dailyEqub" element={<DailyEqub />} />
           <Route path="/dashboard/weeklyEqub" element={<WeeklyEqub />} />
@@ -45,6 +44,6 @@ const App = () => {
       <ToastContainer />
     </div>
   );
-}
+};
 
 export default App;

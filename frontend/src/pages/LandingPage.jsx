@@ -9,7 +9,6 @@ const LandingPage = () => {
       <Header />
       <main className="mt-[70px]">
         <Main />
-
         <Outlet />
       </main>
       <Footer />
