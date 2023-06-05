@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import Card from "../comopnents/cards/Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,43 +5,30 @@ import { fetchEqubType } from "../redux/reducers/equbTypeReducer";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaSearch } from "react-icons/fa";
+
 const Equb = () => {
   const dispatch = useDispatch();
   const equbType = useSelector((state) => state.equb.equbType);
   const loading = useSelector((state) => state.equb.loading);
   const error = useSelector((state) => state.equb.error);
 
-  const [queries, setQueries] = useState("");
+  const [queries, setQueries] = useState({
+    amount: "",
+    members: "",
+    type: "",
+  });
   const [filteredData, setFilteredData] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const filteredData = equbType.filter((data) => {
-      const query = queries.toLowerCase();
-      const amount_of_deposit = data.amount_of_deposit.toString().toLowerCase();
-      const equb_type_name = data.equb_type_name.toLowerCase();
-      const number_of_members = data.number_of_members.toString().toLowerCase();
-      return (
-        amount_of_deposit.includes(query) ||
-        equb_type_name.includes(query) ||
-        number_of_members.includes(query)
-      );
-    });
-
-    if (filteredData.length === 0) {
-      toast.info("No results found");
-    }
-
-    setFilteredData(filteredData);
+    
   };
 
+  
   useEffect(() => {
     dispatch(fetchEqubType());
   }, [dispatch]);
-  
-  console.log(equbType);
-
 
   if (loading) {
     return <div>Loading...</div>;
@@ -60,14 +46,53 @@ const Equb = () => {
           className="flex items-center fixed justify-center lg:mr-48 ml-48  lg:ml-0  -mt-[75px]  z-20 "
         >
           <input
-            id="search"
-            name="search"
-            value={queries}
-            onChange={(e) => setQueries(e.target.value)}
+            id="amount"
+            name="amount"
+            value={queries.amount}
+            onChange={(e) =>
+              setQueries((prevState) => ({
+                ...prevState,
+                amount: e.target.value,
+              }))
+            }
             type="text"
             className="bg-gray-100 w- outline-none border-2 border-gray-300 pl-3 lg:w-[350px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal "
-            placeholder="search here...."
+            placeholder="Enter amount of deposit"
           />
+
+          <input
+            id="members"
+            name="members"
+            value={queries.members}
+            onChange={(e) =>
+              setQueries((prevState) => ({
+                ...prevState,
+                members: e.target.value,
+              }))
+            }
+            type="text"
+            className="bg-gray-100 w- outline-none border-2 border-gray-300 pl-3 lg:w-[350px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal "
+            placeholder="Enter number of members"
+          />
+
+          <select
+            id="type"
+            name="type"
+            value={queries.type}
+            onChange={(e) =>
+              setQueries((prevState) => ({
+                ...prevState,
+                type: e.target.value,
+              }))
+            }
+            className="bg-gray-100 w- outline-none border-2 border-gray-300 pl-3 lg:w-[350px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal "
+          >
+            <option value="">Select equb type</option>
+            <option value="monthly">Monthly</option>
+            <option value="weekly">Weekly</option>
+            <option value="daily">Daily</option>
+          </select>
+
           <button
             type="submit"
             className="bg-blue-400 h-10 flex px-[14px] justify-center items-center rounded-tr-[10px] rounded-br-[10px] cursor-pointer"
