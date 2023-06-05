@@ -15,7 +15,6 @@ const Equb = () => {
   const [queries, setQueries] = useState("");
   const [filteredData, setFilteredData] = useState([]);
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -43,6 +42,8 @@ const Equb = () => {
   }, [dispatch]);
   
   console.log(equbType);
+
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -55,7 +56,6 @@ const Equb = () => {
     <div className="flex flex-col items-center justify-center gap-10 h-full">
       <div className="flex items-center justify-center rounded-[5px]">
         <form
-          action=""
           onSubmit={handleSubmit}
           className="flex items-center fixed justify-center lg:mr-48 ml-48  lg:ml-0  -mt-[75px]  z-20 "
         >
@@ -76,14 +76,9 @@ const Equb = () => {
           </button>
         </form>
       </div>
-      <div className="grid md:grid-cols-2 overflow-x-hidden lg:grid-cols-3 xl:grid-cols-4  place-items-center gap-10 px-5  align-middle">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
         {(filteredData.length > 0 ? filteredData : equbType).map((equbItem) => (
-          <Card
-            key={equbItem._id}
-            amount={equbItem.amount_of_deposit}
-            type={equbItem.equb_type_name}
-            No_member={equbItem.number_of_members}
-          />
+          <Card key={equbItem.id} equbItem={equbItem} />
         ))}
       </div>
       <ToastContainer />
