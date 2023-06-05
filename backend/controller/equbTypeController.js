@@ -14,7 +14,8 @@ const createEqubType = async (req, res) => {
 // Get all EqubTypes
 const getAllEqubTypes = async (req, res) => {
   try {
-    const equbTypes = await EqubType.find();
+    
+    const equbTypes = await EqubType.find()
     res.json(equbTypes);
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve EqubTypes" });

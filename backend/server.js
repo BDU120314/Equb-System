@@ -1,5 +1,4 @@
 const express = require("express");
-
 require("dotenv").config();
 const path = require("path");
 const equbUserRoute = require("./Routes/equbUserRoute");
@@ -9,7 +8,7 @@ const groupMemberRouter = require("./Routes/groupMemberRoute");
 
 const cors = require("cors");
 const app = express();
-//const User = require("./model/equbUserModels");
+
 const connectToDB = require("./config/db_config");
 
 connectToDB();
@@ -31,28 +30,6 @@ app.listen(port, () => {
 });
 
 module.exports = app;
-
-// app.use(
-//   cors({
-//     origin: "http://localhost:5500",
-//   })
-// );
-
-// const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
-
-// const storeItems = new Map([
-//   [1, { priceInCents: 10000, name: "Pay Equb Payment" }],
-// ]);
-
-app.use("/api/v1/users", routes);
-// app.use("/notifications", notificationRoute);
-
-app.use(
-  cors({
-    origin: "http://localhost:5500",
-  })
-);
-
 // app.post("/create-checkout-session", async (req, res) => {
 //   try {
 //     const session = await stripe.checkout.sessions.create({
