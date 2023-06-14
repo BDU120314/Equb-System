@@ -10,6 +10,7 @@ const createGroupMember = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Failed to create GroupMember" });
   }
+  
 };
 
 // Get all GroupMembers
