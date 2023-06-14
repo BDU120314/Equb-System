@@ -1,45 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { setFormData } from "../redux/reducers/registerReducer";
+import axios from "axios";
 import { registerUser } from "../api/registerApi";
-import {
-  setError,
-  setRegistrationStatus,
-} from "../redux/reducers/registerReducer";
 
 const Register = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const formData = useSelector((state) => state.register.formData);
-  // const registrationStatus = useSelector(
-  //   (state) => state.register.registrationStatus
-  // );
-  const error = useSelector((state) => state.register.error);
+  const [formData, setFormData] = useState({
+    fname: "",
+    mname: "",
+    lname: "",
+    phone_number: "",
+    password: "",
+    address: "",
+    image: null,
+    imageUrl: null,
+  });
 
-  // const handleChange = (e) => {
-  //   const { name, value, files } = e.target;
-  //   // Check if the input is a file (image input)
-  //   if (files && files.length > 0) {
-  //     setFormData((prevState) => ({
-  //       ...prevState,
-  //       [name]: files[0], // Only store the first selected file
-  //     }));
-  //   } else {
-  //     setFormData((prevState) => ({
-  //       ...prevState,
-  //       [name]: value,
-  //     }));
-  //   }
-  //    dispatch(setFormData(formData));
-  // };
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (files && files.length > 0) {
-      dispatch(setFormData({ ...formData, [name]: files[0] }));
+
+    if (name === "image") {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: files[0],
+      }));
     } else {
-      dispatch(setFormData({ ...formData, [name]: value }));
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
     }
   };
 
@@ -52,46 +42,42 @@ const Register = () => {
     return password.length > 6;
   };
 
-  // const validateFileExtension = (file) => {
-  //   const allowedExtensions = ["jpg", "jpeg", "png"];
-  //   const fileExtension = file.name.split(".").pop();
-  //   return allowedExtensions.includes(fileExtension.toLowerCase());
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const { phone_number, password, image } = formData;
 
     if (!validatePhoneNumber(phone_number)) {
-      dispatch(setError("Phone number must be a 10-digit positive integer."));
+      console.log("Phone number must be a 10-digit positive integer.");
       return;
     }
 
     if (!validatePassword(password)) {
-      dispatch(setError("Password must be greater than 6 characters."));
+      console.log("Password must be greater than 6 characters.");
       return;
     }
 
-    // if (image && !validateFileExtension(image)) {
-    //   dispatch(setError("ID card must be in JPG, JPEG, or PNG format."));
-    //   return;
-    // }
-
-    const formDataToSend = new FormData();
-    for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
-    }
-
     try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("file", image);
+      formDataToSend.append("upload_preset", "chachu"); // Replace with your upload preset name
+
+      const cloudinaryResponse = await axios.post(
+        "https://api.cloudinary.com/v1_1/dig01gy61/image/upload",
+        formDataToSend
+      );
+
+      const imageUrl = cloudinaryResponse.data.secure_url;
+
+      setFormData((prev) => ({
+        ...prev,
+        imageUrl: imageUrl,
+      }));
+
       const response = await registerUser(formData);
-      if (response.data.registrationStatus) {
-        navigate("/dashboard");
-      } else {
-        navigate("/login");
-      }
+      navigate("/dashboard");
     } catch (error) {
-      dispatch(setError(error.message));
+      console.log(error);
     }
   };
 
@@ -101,11 +87,6 @@ const Register = () => {
         <div className="shadow-xl">
           <h3 className="text-4xl font-bold text-blue-400">Equb</h3>
         </div>
-        {/* {error && (
-          <div className="mt-5">
-            <p className="text-red-500">{error}</p>
-          </div>
-        )} */}
         <div className="w-[100vw] flex flex-col px-6 py-4 mt-6 overflow-hidden bg-gray-100 shadow-md border-t-gray-400 sm:max-w-lg sm:rounded-lg">
           <form className="" onSubmit={handleSubmit}>
             <div className="flex items-center justify-center gap-10">
@@ -125,23 +106,6 @@ const Register = () => {
                   className="block w-half mt-1 pl-2 border-gray-400 border rounded-md shadow-sm outline-none items-center focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
-              {/* <div>
-                <label
-                  htmlFor="mname"
-                  className="block text-sm font-medium text-gray-700 undefined"
-                >
-                  Middle Name
-                </label>
-
-                <input
-                  value={formData.mname}
-                  onChange={handleChange}
-                  type="text"
-                  name="mname"
-                  className="block w-[150px] mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                />
-              </div> */}
-
               <div>
                 <label
                   htmlFor="lname"
@@ -261,36 +225,19 @@ const Register = () => {
               </label>
               <div className="flex flex-col items-start">
                 <input
-                  value={formData.ID}
                   onChange={handleChange}
-                  type="text"
-                  name="ID"
+                  type="file"
+                  name="image"
+                  accept="image/*"
                   className="block w-full mt-1 mb-3 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
             </div>
-
-            {/* <div>
-              <label
-                htmlFor="id"
-                className="block text-sm font-medium text-gray-700 undefined"
-              >
-                Add ID Card
-              </label>
-              <div className="flex flex-col items-start">
-                <input
-                  id="id"
-                  type="file"
-                  accept=".jpg, .jpeg, .png"
-                  onChange={handleChange} // Add the onChange event handler
-                  name="image" // Set the name to "image" to match the state key
-                  className="block w-full mt-1 border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                />
-              </div>
-            </div> */}
-
             <div className="flex items-center mt-4">
-              <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-400 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400">
+              <button
+                type="submit"
+                className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-400 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400"
+              >
                 Register
               </button>
             </div>

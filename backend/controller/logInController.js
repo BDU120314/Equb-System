@@ -1,13 +1,13 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const LogInUser = require("../model/logIn");
+const User = require("../model/equbUserModels");
 
 const loginController = async (req, res) => {
   const { phone_number, password } = req.body;
 
   try {
     // Find the user based on the phone number
-    const user = await LogInUser.findOne({ phone_number });
+    const user = await User.findOne({ phone_number });
     console.log(user);
 
     // Check if the user exists and if the password is correct
@@ -16,7 +16,7 @@ const loginController = async (req, res) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ userId: user._id }, "your_secret_key", {
+    const token = jwt.sign({ userId: user._id }, "equb", {
       expiresIn: "1h",
     });
 

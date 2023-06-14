@@ -12,7 +12,7 @@ const Header = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-screen flex flex-wrap items-center lg:h-[70px] justify-between bg-[#f7f7f7] shadow-lg mb-1 z-[1]">
+      <nav className="fixed top-0 left-0 w-screen flex flex-wrap items-center lg:h-[70px] justify-between bg-[#f7f7f7] shadow-lg mb-1 z-40">
         <div className="container  mx-auto flex flex-wrap items-center justify-between px-[10px]">
           <div className="w-full relative flex justify-between items-center lg:w-auto lg:static lg:block lg:justify-start">
             <NavLink
@@ -51,7 +51,7 @@ const Header = () => {
             }`}
             id="example-navbar-danger"
           >
-            <ul className="flex text-black flex-col lg:flex-row list-none lg:ml-auto items-center">
+            <ul className="flex text-black flex-col lg:flex-row list-none lg:ml-auto items-center z-[1]">
               <li className="flex items-center">
                 <NavLink
                   exact

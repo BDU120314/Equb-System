@@ -10,8 +10,10 @@ const signUpController = async (req, res) => {
     password,
     bank_account_no,
     email,
-    ID,
+    imageUrl,
   } = req.body;
+
+  console.log(req.body)
 
   try {
     // Check if the user with the same phone number or email already exists
@@ -22,7 +24,7 @@ const signUpController = async (req, res) => {
       return res
         .status(400)
         .json({
-          error: "User with the same phone number or email already exists",
+          error: "User with this phone number or email already exists",
         });
     }
 
@@ -38,7 +40,7 @@ const signUpController = async (req, res) => {
       password: hashedPassword,
       bank_account_no,
       email,
-      ID,
+      imageUrl,
     });
 console.log(newUser);
     // Save the user to the database

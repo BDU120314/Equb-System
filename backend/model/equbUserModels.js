@@ -24,8 +24,8 @@ const userSchema = mongoose.Schema(
       type: String,
       unique: true,
     },
-    ID: {
-      type: Array,
+    imageUrl: {
+      type: String,
       unique: true,
     },
   },

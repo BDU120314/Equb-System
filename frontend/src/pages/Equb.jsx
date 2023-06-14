@@ -10,42 +10,70 @@ const Equb = () => {
   const [equbType, setEqubType] = useState([]);
   const [queries, setQueries] = useState({});
   const [filteredData, setFilteredData] = useState([]);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+ 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:5003/api/v1/types");
-        setEqubType(response.data);
-      } catch (error) {
-        console.log("Failed to fetch equbType data:", error);
-      }
-    };
+   const fetchData = async () => {
+     try {
+       const response = await axios.get(
+         `http://localhost:5003/api/v1/types/search`,
+         {
+           params: {
+             ...queries,
+             page: currentPage,
+             pageSize: 8,
+           },
+         }
+       );
+       setFilteredData(response.data.searchResult);
+       setTotalPages(response.data.totalPages);
+     } catch (error) {
+       console.log("Failed to fetch equbType data:", error);
+     }
+   };
+
+
     fetchData();
-  }, []);
+  }, [currentPage]);
+
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setCurrentPage(1);
     try {
       const response = await axios.get(
         "http://localhost:5003/api/v1/types/search",
         {
-          params: queries,
+          params: {
+            ...queries,
+            page: 1,
+            pageSize: 8,
+          },
         }
       );
-      setFilteredData(response.data);
+      setFilteredData(response.data.searchResult);
+      setTotalPages(response.data.totalPages);
     } catch (error) {
       console.log("Failed to fetch filtered data:", error);
     }
     setIsSearched(true);
   };
 
+
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div className="flex flex-col relative justify-center items-center pt-[100px] pb-20">
-      <div className="justify-center z-[20] items-center flex fixed top-[80px] left-auto">
+      <div className="justify-center z-[20] w-screen bg-[#f7f7f7] items-center flex fixed py-5 top-[70px] left-auto">
         <form
           action=""
           onSubmit={handleSubmit}
-          className="flex items-center justify-center gap-2"
+          className="flex flex-col md:flex-row  items-center justify-center gap-2"
         >
           <select
             id="type"
@@ -57,7 +85,7 @@ const Equb = () => {
                 type: e.target.value,
               }))
             }
-            className="bg-gray-100 outline-none border-2 border-gray-300 pl-3 lg:w-[250px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal"
+            className="bg-gray-100 outline-none border-2 border-gray-300 pl-3 w-full md:w-[250px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal"
           >
             <option value="">Select equb type</option>
             <option value="Monthly">Monthly</option>
@@ -75,7 +103,7 @@ const Equb = () => {
               }))
             }
             type="number"
-            className="bg-gray-100 outline-none border-2 border-gray-300 pl-3 lg:w-[250px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal"
+            className="bg-gray-100 outline-none border-2 border-gray-300 pl-3 w-full md:w-[250px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal"
             placeholder="Enter amount of deposit"
           />
 
@@ -90,7 +118,7 @@ const Equb = () => {
               }))
             }
             type="number"
-            className="bg-gray-100 outline-none border-2 border-gray-300 pl-3 lg:w-[250px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal"
+            className="bg-gray-100 outline-none border-2 border-gray-300 pl-3 w-full md:w-[250px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal"
             placeholder="Enter number of members"
           />
 
@@ -102,7 +130,7 @@ const Equb = () => {
           </button>
         </form>
       </div>
-      <div className="grid md:grid-cols-2 overflow-x-hidden lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-10 px-5 align-middle">
+      <div className="grid md:grid-cols-2 overflow-x-hidden lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-10 px-3 flex-wrap ">
         {filteredData.length > 0 ? (
           filteredData.map((equbItem) => (
             <Card
@@ -110,6 +138,8 @@ const Equb = () => {
               amount={equbItem.amount_of_deposit}
               type={equbItem.equb_type_name}
               No_member={equbItem.number_of_members}
+              status={equbItem.status}
+              createdAt={equbItem.createdAt}
             />
           ))
         ) : isSearched ? (
@@ -121,27 +151,26 @@ const Equb = () => {
               amount={equbItem.amount_of_deposit}
               type={equbItem.equb_type_name}
               No_member={equbItem.number_of_members}
+              status={equbItem.status}
+              createdAt={equbItem.createdAt}
             />
           ))
         )}
-
-        {/* { (filteredData.length > 0 ? filteredData :
-        {filteredData.length === 0
-        ? toast.info("no result found"):
-        
-        
-        
-        
-        equbType).map(
-              (equbItem) => (
-                <Card
-                  key={equbItem._id}
-                  amount={equbItem.amount_of_deposit}
-                  type={equbItem.equb_type_name}
-                  No_member={equbItem.number_of_members}
-                />
-              )
-            )}} */}
+      </div>
+      <div className="flex justify-center mt-20">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            className={`px-4 py-2 mr-2 border ${
+              index + 1 === currentPage
+                ? "bg-blue-500 text-white"
+                : "bg-gray-100 text-gray-700"
+            }`}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </button>
+        ))}
       </div>
       <ToastContainer />
     </div>

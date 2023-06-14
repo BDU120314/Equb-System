@@ -8,7 +8,6 @@ import {
   resetLogin,
 } from "../redux/reducers/loginReducer";
 import { loginUser } from "../api/loginApi";
-import { setError } from "../redux/reducers/registerReducer";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../assets/equb.png";
@@ -79,7 +78,6 @@ const Login = () => {
         //     "Incorrect password.Password must be at least 6 characters long.";
         // }
 
-        dispatch(setError(errorMessage));
       toast.error(errorMessage);
     }
   };

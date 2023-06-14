@@ -31,8 +31,6 @@ const App = () => {
           path="/forgotPassword"
           element={<ForgotPassword />}
         />
-
-        <Route path="/equb" element = {<Equb />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="/dashboard/dailyEqub" element={<DailyEqub />} />
           <Route path="/dashboard/weeklyEqub" element={<WeeklyEqub />} />

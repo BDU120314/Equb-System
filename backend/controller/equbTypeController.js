@@ -11,13 +11,25 @@ const createEqubType = async (req, res) => {
   }
 };
 
-// Get all EqubTypes
+// Get all EqubTypes with pagination
 const getAllEqubTypes = async (req, res) => {
   try {
-    const equbTypes = await EqubType.find();
-    res.json(equbTypes);
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 8;
+
+    const totalEqubTypes = await EqubType.countDocuments();
+    const totalPages = Math.ceil(totalEqubTypes / pageSize);
+    const skip = (page - 1) * pageSize;
+
+    const equbTypes = await EqubType.find().skip(skip).limit(pageSize);
+
+    res.json({
+      equbTypes,
+      currentPage: page,
+      totalPages,
+    });
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve muller EqubTypes" });
+    res.status(500).json({ error: "Failed to retrieve EqubTypes" });
   }
 };
 
@@ -26,7 +38,7 @@ const getEqubTypeById = async (req, res) => {
   try {
     const equbType = await EqubType.findById(req.params.id);
     if (!equbType) {
-      return res.status(404).json({ error: "EqubType not findbyid found" });
+      return res.status(404).json({ error: "EqubType not found" });
     }
     console.log("equb types are muller :   ", equbType);
     res.json(equbType);
@@ -45,7 +57,7 @@ const updateEqubType = async (req, res) => {
       { new: true }
     );
     if (!updatedEqubType) {
-      return res.status(404).json({ error: "EqubType find not found" });
+      return res.status(404).json({ error: "EqubType not found" });
     }
     res.json(updatedEqubType);
   } catch (error) {
@@ -60,7 +72,7 @@ const deleteEqubType = async (req, res) => {
       req.params.equbTypeId
     );
     if (!deletedEqubType) {
-      return res.status(404).json({ error: "EqubType delete not found" });
+      return res.status(404).json({ error: "EqubType not found" });
     }
     res.json(deletedEqubType);
   } catch (error) {
@@ -68,9 +80,10 @@ const deleteEqubType = async (req, res) => {
   }
 };
 
+// Search EqubTypes with pagination
 const searchEqubTypes = async (req, res) => {
   try {
-    const { type, amount, members } = req.query;
+    const { type, amount, members, page, pageSize } = req.query;
     const conditions = [];
 
     if (type) {
@@ -85,16 +98,24 @@ const searchEqubTypes = async (req, res) => {
       conditions.push({ number_of_members: { $eq: parseInt(members) } });
     }
 
-    const query = { $and: conditions };
-    // const query = { $or: conditions };
+    const query = conditions.length > 0 ? { $and: conditions } : {};
 
-    const searchResult = await EqubType.find(query);
-    console.log("search result:", searchResult);
-    res.json(searchResult);
+    const totalCount = await EqubType.countDocuments(query);
+    const totalPages = Math.ceil(totalCount / pageSize);
+
+    const searchResult = await EqubType.find(query)
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
+    res.json({
+      searchResult,
+      totalPages,
+    });
   } catch (error) {
     res.status(500).json({ error: "Failed to search Equb Types" });
   }
 };
+
 
 module.exports = {
   getAllEqubTypes,
