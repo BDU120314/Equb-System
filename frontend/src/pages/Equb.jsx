@@ -12,32 +12,29 @@ const Equb = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
- 
-  useEffect(() => {
-   const fetchData = async () => {
-     try {
-       const response = await axios.get(
-         `http://localhost:5003/api/v1/types/search`,
-         {
-           params: {
-             ...queries,
-             page: currentPage,
-             pageSize: 8,
-           },
-         }
-       );
-       setFilteredData(response.data.searchResult);
-       setTotalPages(response.data.totalPages);
-     } catch (error) {
-       console.log("Failed to fetch equbType data:", error);
-     }
-   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5003/api/v1/types/search`,
+          {
+            params: {
+              ...queries,
+              page: currentPage,
+              pageSize: 8,
+            },
+          }
+        );
+        setEqubType(response.data.searchResult);
+        setTotalPages(response.data.totalPages);
+      } catch (error) {
+        console.log("Failed to fetch equbType data:", error);
+      }
+    };
 
     fetchData();
   }, [currentPage]);
-
- 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,8 +57,6 @@ const Equb = () => {
     }
     setIsSearched(true);
   };
-
-
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
