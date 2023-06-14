@@ -1,23 +1,3 @@
-// import { createSlice } from "@reduxjs/toolkit";
-// import axios from "axios";
-
-
-//  const response = await axios.get("http://localhost:5000/equbType");
-
-// const initialState ={
-//   EqupType :response.data,
-// }
-// const EqubTypeSlice = createSlice({
-//   name :"equb",
-//   initialState,
-//   reducers : {
-//    CreateGroupEqub :(state, action) =>{
-   
-//     }
-
-//   }
-// })
-
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";

@@ -44,7 +44,7 @@ module.exports = app;
 //   [1, { priceInCents: 10000, name: "Pay Equb Payment" }],
 // ]);
 
-app.use("/api/v1/users", routes);
+// app.use("/api/v1/users", routes);
 // app.use("/notifications", notificationRoute);
 
 app.use(
