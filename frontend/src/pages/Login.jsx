@@ -1,51 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  setPhoneNumber,
-  setPassword,
-  setLoggedIn,
-  resetLogin,
-} from "../redux/reducers/loginReducer";
 import { loginUser } from "../api/loginApi";
-import { setError } from "../redux/reducers/registerReducer";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../assets/equb.png";
 
 const Login = () => {
-  const dispatch = useDispatch();
+  const [formData, setFormData] = useState({
+    phoneNumber: "",
+    password: "",
+  });
+  const { phoneNumber, password } = formData;
   const navigate = useNavigate();
-  const phoneNumber = useSelector((state) => state.login.phoneNumber);
-  const password = useSelector((state) => state.login.password);
-  const loggedIn = useSelector((state) => state.login.loggedIn);
-  const error = useSelector((state) => state.login.error);
-  const [rememberMe, setRememberMe] = useState(false); // Remember Me state
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(resetLogin()); // Clear login form after displaying the error
-    }
-  }, [error, dispatch]);
-
-  useEffect(() => {
-    // Check if the Remember Me value exists in local storage
-    const rememberMeValue = localStorage.getItem("rememberMe");
-    if (rememberMeValue) {
-      setRememberMe(true); // Set the Remember Me state to true
-    }
-  }, []);
-
   const handleChange = (e) => {
-    const { name, value, checked } = e.target;
-    if (name === "phone") {
-      dispatch(setPhoneNumber(value));
-    } else if (name === "password") {
-      dispatch(setPassword(value));
-    } else if (name === "rememberMe") {
-      setRememberMe(checked);
-    }
+    const { name, value } = e.target;
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleLogin = async (e) => {
@@ -61,25 +30,12 @@ const Login = () => {
       }
 
       await loginUser(phoneNumber, password);
-      dispatch(setLoggedIn(true));
-      if (loggedIn) {
-        if (rememberMe) {
-          localStorage.setItem("rememberMe", "true"); // Store Remember Me value in local storage
-        } else {
-          localStorage.removeItem("rememberMe"); // Remove Remember Me value from local storage
-        }
-        navigate("/dashboard");
-      }
+      navigate("/dashboard");
     } catch (error) {
       let errorMessage = error.message;
 
-      if ((error.message = "Password must be at least 6 characters long.")) //{
-      //   errorMessage =
-      //     "Incorrect password.Password must be at least 6 characters long.";
-      // }
-
-      dispatch(setError(errorMessage));
-      toast.error(errorMessage);
+      if ((error.message = "Password must be at least 6 characters long."))
+        toast.error(errorMessage);
     }
   };
 
@@ -104,7 +60,7 @@ const Login = () => {
             <label htmlFor="phone">Phone Number</label>
             <input
               value={phoneNumber}
-              name="phone"
+              name="phoneNumber"
               onChange={handleChange}
               type="tel"
               placeholder="Enter your Phone Number"
@@ -128,8 +84,6 @@ const Login = () => {
               <input
                 type="checkbox"
                 name="rememberMe"
-                checked={rememberMe}
-                value={rememberMe}
                 onChange={handleChange}
               />
               <span>Remember me</span>

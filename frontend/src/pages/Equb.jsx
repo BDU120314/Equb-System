@@ -1,50 +1,96 @@
 import React, { useEffect, useState } from "react";
 import Card from "../comopnents/cards/Card";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchEqubType } from "../redux/reducers/equbTypeReducer";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaSearch } from "react-icons/fa";
+import axios from "axios";
 
 const Equb = () => {
-  const dispatch = useDispatch();
-  const equbType = useSelector((state) => state.equb.equbType);
-  const loading = useSelector((state) => state.equb.loading);
-  const error = useSelector((state) => state.equb.error);
-
-  const [queries, setQueries] = useState({
-    amount: "",
-    members: "",
-    type: "",
-  });
+  const [isSearched, setIsSearched] = useState(false);
+  const [equbType, setEqubType] = useState([]);
+  const [queries, setQueries] = useState({});
   const [filteredData, setFilteredData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+ 
+  useEffect(() => {
+   const fetchData = async () => {
+     try {
+       const response = await axios.get(
+         `http://localhost:5003/api/v1/types/search`,
+         {
+           params: {
+             ...queries,
+             page: currentPage,
+             pageSize: 8,
+           },
+         }
+       );
+       setFilteredData(response.data.searchResult);
+       setTotalPages(response.data.totalPages);
+     } catch (error) {
+       console.log("Failed to fetch equbType data:", error);
+     }
+   };
 
-  const handleSubmit = (e) => {
+
+    fetchData();
+  }, [currentPage]);
+
+ 
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    
+    setCurrentPage(1);
+    try {
+      const response = await axios.get(
+        "http://localhost:5003/api/v1/types/search",
+        {
+          params: {
+            ...queries,
+            page: 1,
+            pageSize: 8,
+          },
+        }
+      );
+      setFilteredData(response.data.searchResult);
+      setTotalPages(response.data.totalPages);
+    } catch (error) {
+      console.log("Failed to fetch filtered data:", error);
+    }
+    setIsSearched(true);
   };
 
-  
-  useEffect(() => {
-    dispatch(fetchEqubType());
-  }, [dispatch]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-10 h-full">
-      <div className="flex items-center justify-center rounded-[5px]">
+    <div className="flex flex-col relative justify-center items-center pt-[100px] pb-20">
+      <div className="justify-center z-[20] w-screen bg-[#f7f7f7] items-center flex fixed py-5 top-[70px] left-auto">
         <form
           onSubmit={handleSubmit}
-          className="flex items-center fixed justify-center lg:mr-48 ml-48  lg:ml-0  -mt-[75px]  z-20 "
+          className="flex flex-col md:flex-row  items-center justify-center gap-2"
         >
+          <select
+            id="type"
+            name="type"
+            value={queries.type}
+            onChange={(e) =>
+              setQueries((prevState) => ({
+                ...prevState,
+                type: e.target.value,
+              }))
+            }
+            className="bg-gray-100 outline-none border-2 border-gray-300 pl-3 w-full md:w-[250px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal"
+          >
+            <option value="">Select equb type</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Daily">Daily</option>
+          </select>
           <input
             id="amount"
             name="amount"
@@ -55,8 +101,8 @@ const Equb = () => {
                 amount: e.target.value,
               }))
             }
-            type="text"
-            className="bg-gray-100 w- outline-none border-2 border-gray-300 pl-3 lg:w-[350px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal "
+            type="number"
+            className="bg-gray-100 outline-none border-2 border-gray-300 pl-3 w-full md:w-[250px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal"
             placeholder="Enter amount of deposit"
           />
 
@@ -70,28 +116,10 @@ const Equb = () => {
                 members: e.target.value,
               }))
             }
-            type="text"
-            className="bg-gray-100 w- outline-none border-2 border-gray-300 pl-3 lg:w-[350px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal "
+            type="number"
+            className="bg-gray-100 outline-none border-2 border-gray-300 pl-3 w-full md:w-[250px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal"
             placeholder="Enter number of members"
           />
-
-          <select
-            id="type"
-            name="type"
-            value={queries.type}
-            onChange={(e) =>
-              setQueries((prevState) => ({
-                ...prevState,
-                type: e.target.value,
-              }))
-            }
-            className="bg-gray-100 w- outline-none border-2 border-gray-300 pl-3 lg:w-[350px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal "
-          >
-            <option value="">Select equb type</option>
-            <option value="monthly">Monthly</option>
-            <option value="weekly">Weekly</option>
-            <option value="daily">Daily</option>
-          </select>
 
           <button
             type="submit"
@@ -101,9 +129,46 @@ const Equb = () => {
           </button>
         </form>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
-        {(filteredData.length > 0 ? filteredData : equbType).map((equbItem) => (
-          <Card key={equbItem.id} equbItem={equbItem} />
+      <div className="grid md:grid-cols-2 overflow-x-hidden lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-10 px-3 flex-wrap ">
+        {filteredData.length > 0 ? (
+          filteredData.map((equbItem) => (
+            <Card
+              key={equbItem._id}
+              amount={equbItem.amount_of_deposit}
+              type={equbItem.equb_type_name}
+              No_member={equbItem.number_of_members}
+              status={equbItem.status}
+              createdAt={equbItem.createdAt}
+            />
+          ))
+        ) : isSearched ? (
+          <p>No result found</p>
+        ) : (
+          equbType.map((equbItem) => (
+            <Card
+              key={equbItem._id}
+              amount={equbItem.amount_of_deposit}
+              type={equbItem.equb_type_name}
+              No_member={equbItem.number_of_members}
+              status={equbItem.status}
+              createdAt={equbItem.createdAt}
+            />
+          ))
+        )}
+      </div>
+      <div className="flex justify-center mt-20">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            className={`px-4 py-2 mr-2 border ${
+              index + 1 === currentPage
+                ? "bg-blue-500 text-white"
+                : "bg-gray-100 text-gray-700"
+            }`}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </button>
         ))}
       </div>
       <ToastContainer />

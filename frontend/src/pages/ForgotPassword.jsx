@@ -1,12 +1,5 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setPhoneNumber,
-  setPassword,
-  setConfirmPassword,
-  resetPasswordRequest,
-  setAcceptTerms,
-} from "../redux/reducers/authReducer";
 import { Link } from "react-router-dom";
 
 const ForgotPassword = () => {
@@ -19,28 +12,23 @@ const ForgotPassword = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     // Perform validation and dispatch resetPasswordRequest action
-    dispatch(resetPasswordRequest());
     // Other logic...
   };
 
   const handlePhoneNumberChange = (e) => {
     const { value } = e.target;
-    dispatch(setPhoneNumber(value));
   };
 
   const handlePasswordChange = (e) => {
     const { value } = e.target;
-    dispatch(setPassword(value));
   };
 
   const handleConfirmPasswordChange = (e) => {
     const { value } = e.target;
-    dispatch(setConfirmPassword(value));
   };
   
   const handleAcceptTermsChange = (e) => {
     const { checked } = e.target;
-    dispatch(setAcceptTerms(checked));
   };
 
   const validatePhoneNumber = (value) => {

@@ -24,13 +24,13 @@ const userSchema = mongoose.Schema(
       type: String,
       unique: true,
     },
-    imageUrl: {
-      type: String,
+    ID: {
+      type: Array,
       unique: true,
     },
   },
   { timestamps: true }
 );
-const User = mongoose.model("User", userSchema);
+const LogInUser = mongoose.model("LogInUser", userSchema);
 
-module.exports = User;
+module.exports = LogInUser;
