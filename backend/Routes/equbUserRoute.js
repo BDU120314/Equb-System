@@ -5,23 +5,20 @@ const {
   getUserById,
   updateUser,
   deleteUser,
+  loginController,
+  logoutController,
 } = require("../controller/equbController");
 const userRouter = express.Router();
 
-// get files
-
 userRouter.get("/", getUsers);
+userRouter.post("/login", loginController);
+userRouter.post("/logout", logoutController);
 
 userRouter.get("/:id", getUserById);
 
-//creating files
 userRouter.post("/", createUser);
 
-//updating request
-
 userRouter.put("/:id", updateUser);
-
-//delete requests
 
 userRouter.delete("/:id", deleteUser);
 

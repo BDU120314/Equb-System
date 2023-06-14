@@ -1,4 +1,3 @@
-const EqubType = require("../model/EqubType");
 
 const createEqubType = async (req, res) => {
   try {
@@ -11,11 +10,23 @@ const createEqubType = async (req, res) => {
   }
 };
 
-// Get all EqubTypes
+// Get all EqubTypes with pagination
 const getAllEqubTypes = async (req, res) => {
   try {
-    const equbTypes = await EqubType.find();
-    res.json(equbTypes);
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 8;
+
+    const totalEqubTypes = await EqubType.countDocuments();
+    const totalPages = Math.ceil(totalEqubTypes / pageSize);
+    const skip = (page - 1) * pageSize;
+
+    const equbTypes = await EqubType.find().skip(skip).limit(pageSize);
+
+    res.json({
+      equbTypes,
+      currentPage: page,
+      totalPages,
+    });
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve EqubTypes" });
   }
@@ -24,10 +35,11 @@ const getAllEqubTypes = async (req, res) => {
 // Get EqubType by ID
 const getEqubTypeById = async (req, res) => {
   try {
-    const equbType = await EqubType.findById(req.params.equbTypeId);
+    const equbType = await EqubType.findById(req.params.id);
     if (!equbType) {
       return res.status(404).json({ error: "EqubType not found" });
     }
+    console.log("equb types are muller :   ", equbType);
     res.json(equbType);
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve EqubType" });
@@ -67,10 +79,48 @@ const deleteEqubType = async (req, res) => {
   }
 };
 
+// Search EqubTypes with pagination
+const searchEqubTypes = async (req, res) => {
+  try {
+    const { type, amount, members, page, pageSize } = req.query;
+    const conditions = [];
+
+    if (type) {
+      conditions.push({ equb_type_name: { $regex: new RegExp(type, "i") } });
+    }
+
+    if (amount) {
+      conditions.push({ amount_of_deposit: { $eq: parseInt(amount) } });
+    }
+
+    if (members) {
+      conditions.push({ number_of_members: { $eq: parseInt(members) } });
+    }
+
+    const query = conditions.length > 0 ? { $and: conditions } : {};
+
+    const totalCount = await EqubType.countDocuments(query);
+    const totalPages = Math.ceil(totalCount / pageSize);
+
+    const searchResult = await EqubType.find(query)
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
+    res.json({
+      searchResult,
+      totalPages,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to search Equb Types" });
+  }
+};
+
+
 module.exports = {
   getAllEqubTypes,
   createEqubType,
   getEqubTypeById,
   updateEqubType,
+  searchEqubTypes,
   deleteEqubType,
 };

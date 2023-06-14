@@ -1,69 +1,84 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { setFormData} from "../redux/reducers/registerReducer";
+import axios from "axios";
 import { registerUser } from "../api/registerApi";
-import { setError, setRegistrationStatus } from "../redux/reducers/registerReducer";
 
 const Register = () => {
+  const [formData, setFormData] = useState({
+    fname: "",
+    mname: "",
+    lname: "",
+    phone_number: "",
+    password: "",
+    address: "",
+    image: null,
+    imageUrl: null,
+  });
 
-const dispatch = useDispatch();
-const navigate = useNavigate();
-const formData = useSelector((state) => state.register.formData);
-// const registrationStatus = useSelector(
-//   (state) => state.register.registrationStatus
-// );
-const error = useSelector((state) => state.register.error);
+  const navigate = useNavigate();
 
-  // const handleChange = (e) => {
-  //   const { name, value, files } = e.target;
-  //   // Check if the input is a file (image input)
-  //   if (files && files.length > 0) {
-  //     setFormData((prevState) => ({
-  //       ...prevState,
-  //       [name]: files[0], // Only store the first selected file
-  //     }));
-  //   } else {
-  //     setFormData((prevState) => ({
-  //       ...prevState,
-  //       [name]: value,
-  //     }));
-  //   }
-  //    dispatch(setFormData(formData));
-  // };
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
 
-const handleChange = (e) => {
-  const { name, value, files } = e.target;
-  // Check if the input is a file (image input)
-  if (files && files.length > 0) {
-    dispatch(setFormData({ ...formData, [name]: files[0] })); // Use the spread operator to update the specific field
-  } else {
-    dispatch(setFormData({ ...formData, [name]: value })); // Use the spread operator to update the specific field
-  }
-};
+    if (name === "image") {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: files[0],
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
+  const validatePhoneNumber = (phoneNumber) => {
+    const phoneNumberRegex = /^\d{10}$/;
+    return phoneNumberRegex.test(phoneNumber);
+  };
+
+  const validatePassword = (password) => {
+    return password.length > 6;
+  };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
-    const formDataToSend = new FormData();
-    for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
+    const { phone_number, password, image } = formData;
+
+    if (!validatePhoneNumber(phone_number)) {
+      console.log("Phone number must be a 10-digit positive integer.");
+      return;
     }
 
-    console.log(Object.fromEntries(formDataToSend)); // Display form data on the console
+    if (!validatePassword(password)) {
+      console.log("Password must be greater than 6 characters.");
+      return;
+    }
 
-     try {
-       const response = await registerUser(formData);
-       dispatch(setRegistrationStatus(response.data)); // Dispatch action to update registration status in Redux store
-       // ... handle success case ...
-        if (response.data.registrationStatus) {
-          navigate("/login");
-        }
-     } catch (error) {
-       dispatch(setError(error.message)); // Dispatch action to update error in Redux store
-       // ... handle error case ...
-     }
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("file", image);
+      formDataToSend.append("upload_preset", "chachu"); // Replace with your upload preset name
+
+      const cloudinaryResponse = await axios.post(
+        "https://api.cloudinary.com/v1_1/dig01gy61/image/upload",
+        formDataToSend
+      );
+
+      const imageUrl = cloudinaryResponse.data.secure_url;
+
+      setFormData((prev) => ({
+        ...prev,
+        imageUrl: imageUrl,
+      }));
+
+      const response = await registerUser(formData);
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -72,12 +87,9 @@ const handleChange = (e) => {
         <div className="shadow-xl">
           <h3 className="text-4xl font-bold text-blue-400">Equb</h3>
         </div>
-        {
-          error && (<div className="mt-5"><p className="text-red-500">{error}</p></div>)
-        }
         <div className="w-[100vw] flex flex-col px-6 py-4 mt-6 overflow-hidden bg-gray-100 shadow-md border-t-gray-400 sm:max-w-lg sm:rounded-lg">
           <form className="" onSubmit={handleSubmit}>
-            <div className="flex items-center justify-center gap-5">
+            <div className="flex items-center justify-center gap-10">
               <div>
                 <label
                   htmlFor="fname"
@@ -91,26 +103,9 @@ const handleChange = (e) => {
                   onChange={handleChange}
                   type="text"
                   name="fname"
-                  className="block w-[150px] mt-1 pl-2 border-gray-400 border rounded-md shadow-sm outline-none items-center focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="block w-half mt-1 pl-2 border-gray-400 border rounded-md shadow-sm outline-none items-center focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
-              <div>
-                <label
-                  htmlFor="mname"
-                  className="block text-sm font-medium text-gray-700 undefined"
-                >
-                  Middle Name
-                </label>
-
-                <input
-                  value={formData.mname}
-                  onChange={handleChange}
-                  type="text"
-                  name="mname"
-                  className="block w-[150px] mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                />
-              </div>
-
               <div>
                 <label
                   htmlFor="lname"
@@ -124,85 +119,125 @@ const handleChange = (e) => {
                   onChange={handleChange}
                   type="text"
                   name="lname"
-                  className="block w-[150px] mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="block w-half mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
             </div>
-            <div className="mt-4">
-              <label
-                htmlFor="phone"
-                className="block text-sm font-medium text-gray-700 undefined"
-              >
-                Phone_number
-              </label>
-              <div className="flex flex-col items-start">
-                <input
-                  value={formData.phone_number}
-                  onChange={handleChange}
-                  id="phone"
-                  type="tel"
-                  name="phone_number"
-                  className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                />
+            <div className="flex items-center justify-center gap-10">
+              <div className="mt-4">
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-medium text-gray-700 undefined"
+                >
+                  Phone_number
+                </label>
+                <div className="flex flex-col items-start">
+                  <input
+                    value={formData.phone_number}
+                    onChange={handleChange}
+                    id="phone"
+                    type="tel"
+                    name="phone_number"
+                    className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  />
+                </div>
+              </div>
+              <div className="mt-4">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700 undefined"
+                >
+                  Password
+                </label>
+                <div className="flex flex-col items-start">
+                  <input
+                    value={formData.password}
+                    onChange={handleChange}
+                    autoComplete="false"
+                    type="password"
+                    name="password"
+                    className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  />
+                </div>
               </div>
             </div>
-            <div className="mt-4">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700 undefined"
-              >
-                Password
-              </label>
-              <div className="flex flex-col items-start">
-                <input
-                  value={formData.password}
-                  onChange={handleChange}
-                  autoComplete="false"
-                  type="password"
-                  name="password"
-                  className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                />
+            <div className="flex items-center justify-center gap-10">
+              <div className="mt-4">
+                <label
+                  htmlFor="address"
+                  className="block text-sm font-medium text-gray-700 undefined"
+                >
+                  Address
+                </label>
+                <div className="flex flex-col items-start">
+                  <input
+                    value={formData.address}
+                    onChange={handleChange}
+                    type="text"
+                    name="address"
+                    className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  />
+                </div>
+              </div>
+              <div className="mt-4">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 undefined"
+                >
+                  Email
+                </label>
+                <div className="flex flex-col items-start">
+                  <input
+                    value={formData.email}
+                    onChange={handleChange}
+                    type="email"
+                    name="email"
+                    className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  />
+                </div>
               </div>
             </div>
+
             <div className="mt-4">
               <label
-                htmlFor="password_confirmation"
+                htmlFor="bank_account_no"
                 className="block text-sm font-medium text-gray-700 undefined"
               >
-                Address
+                bank_account_no
               </label>
               <div className="flex flex-col items-start">
                 <input
-                  value={formData.address}
+                  value={formData.bank_account_no}
                   onChange={handleChange}
-                  type="address"
-                  name="address"
-                  className="block w-full mt-1 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  type="text"
+                  name="bank_account_no"
+                  className="block w-full mt-1 mb-3 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
             </div>
 
-            <div>
+            <div className="mt-4">
               <label
-                htmlFor="id"
+                htmlFor="ID"
                 className="block text-sm font-medium text-gray-700 undefined"
               >
-                Add ID Card
+                ID
               </label>
               <div className="flex flex-col items-start">
                 <input
-                  id="id"
+                  onChange={handleChange}
                   type="file"
-                  accept=".jpg, .jpeg, .png"
-                  onChange={handleChange} // Add the onChange event handler
-                  name="image" // Set the name to "image" to match the state key
-                  className="block w-full mt-1 border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  name="image"
+                  accept="image/*"
+                  className="block w-full mt-1 mb-3 pl-2 outline-none border-gray-400 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
             </div>
-
             <div className="flex items-center mt-4">
-              <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-400 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400">
+              <button
+                type="submit"
+                className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-400 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400"
+              >
                 Register
               </button>
             </div>
