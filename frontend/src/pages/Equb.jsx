@@ -12,12 +12,13 @@ const Equb = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [typeName, settypeName] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5003/api/v1/types/search`,
+          `http://localhost:5003/api/v1/groups/search`,
           {
             params: {
               ...queries,
@@ -34,14 +35,30 @@ const Equb = () => {
     };
 
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, queries]);
+
+  const typeName_id = equbType.map(item => item.equb_type_id);
+
+  
+  useEffect(() => {
+   const handleTypeName = async ()=>{
+    for (const equb_type_id of typeName_id) {
+      const response = await axios.get(`http://localhost:5003/api/v1/types/${equb_type_id}`)
+settypeName(response.data)
+    }
+   }
+   handleTypeName()
+  }, [typeName_id])
+  console.log(typeName)
+  
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setCurrentPage(1);
     try {
       const response = await axios.get(
-        "http://localhost:5003/api/v1/types/search",
+        "http://localhost:5003/api/v1/groups/search",
         {
           params: {
             ...queries,
@@ -83,7 +100,7 @@ const Equb = () => {
             className="bg-gray-100 outline-none border-2 border-gray-300 pl-3 w-full md:w-[250px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal"
           >
             <option value="">Select equb type</option>
-            <option value="Monthly">Monthly</option>
+            <option value="648f9b71ebb5c6003cd359bc">Monthly</option>
             <option value="Weekly">Weekly</option>
             <option value="Daily">Daily</option>
           </select>
@@ -131,10 +148,12 @@ const Equb = () => {
             <Card
               key={equbItem._id}
               amount={equbItem.amount_of_deposit}
-              type={equbItem.equb_type_name}
-              No_member={equbItem.number_of_members}
+              equb_type_id={equbItem.equb_type_id}
+              No_member={equbItem.total_Members}
               status={equbItem.status}
               createdAt={equbItem.createdAt}
+              equb_Group_id ={equbItem._id}
+
             />
           ))
         ) : isSearched ? (
@@ -144,10 +163,11 @@ const Equb = () => {
             <Card
               key={equbItem._id}
               amount={equbItem.amount_of_deposit}
-              type={equbItem.equb_type_name}
-              No_member={equbItem.number_of_members}
+              equb_type_id={equbItem.equb_type_id}
+              No_member={equbItem.total_Members}
               status={equbItem.status}
               createdAt={equbItem.createdAt}
+              equb_Group_id ={equbItem._id}
             />
           ))
         )}

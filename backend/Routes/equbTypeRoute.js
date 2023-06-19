@@ -6,14 +6,11 @@ const {
   getEqubTypeById,
   updateEqubType,
   deleteEqubType,
-  searchEqubTypes,
 } = require("../controller/equbTypeController");
 
 equbTypeRouter.post("/", createEqubType);
 
-equbTypeRouter.get("/search", searchEqubTypes); //placed before getById top to bottom
-
-// equbTypeRouter.get("/:equbTypeId", getEqubTypeById);
+equbTypeRouter.get("/:id", getEqubTypeById);
 
 equbTypeRouter.get("/", getAllEqubTypes);
 

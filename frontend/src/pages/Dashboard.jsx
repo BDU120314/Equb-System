@@ -9,16 +9,11 @@ import { Link, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { menuBar } from "../redux/state";
 
-const initialState = {
-  searchQuery: "",
-};
 
 const Dashboard = () => {
-  //header
-  const [formData, setFormData] = useState(initialState);
-  const [isUserMenuOpen, setUserMenuOpen] = useState(false);
+ const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   const [isOpenSublink, setIsOpenSublink] = useState(false);
- const isClicked = useSelector((state) => state.state.isClicked);
+ const isClicked = useSelector((state) => state.states.isClicked);
 
   function toggleUserMenu() {
     setUserMenuOpen((prevState) => !prevState);

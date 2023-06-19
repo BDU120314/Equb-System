@@ -9,7 +9,9 @@ const groupSchema = new mongoose.Schema({
     required: true,
   },
   amount_of_deposit: { type: Number, required: true },
-  total_cycles: { type: Number, required: true },
+  members :{type: Array},
+  status: { type: String, default: "Pending" },
+  total_Members: { type: Number, required: true },
   created_at: { type: Date, default: Date.now },
 });
 

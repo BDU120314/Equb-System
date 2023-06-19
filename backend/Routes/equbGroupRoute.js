@@ -1,21 +1,15 @@
 const express = require("express");
 const equbGroupRouter = express.Router();
-const {
-  getAllGroups,
-  createGroup,
-  getGroupById,
-  updateGroup,
-  deleteGroup,
-} = require("../controller/equbGroupController");
+const { createEqubGroup, getAllEqubGroups, updateEqubGroup, deleteEqubGroup, searchEqubGroup } = require("../controller/equbGroupController");
 
-equbGroupRouter.post("/", createGroup);
+equbGroupRouter.post("/", createEqubGroup);
 
-equbGroupRouter.get("/:groupId", getGroupById);
+equbGroupRouter.get("/search", searchEqubGroup); //placed before getById top to bottom
 
-equbGroupRouter.get("/", getAllGroups);
+equbGroupRouter.get("/", getAllEqubGroups);
 
-equbGroupRouter.put("/:groupId", updateGroup);
+equbGroupRouter.put("/:equbGroupId", updateEqubGroup);
 
-equbGroupRouter.delete("/:groupId", deleteGroup);
+equbGroupRouter.delete("/:equbGroupId", deleteEqubGroup);
 
 module.exports = equbGroupRouter;

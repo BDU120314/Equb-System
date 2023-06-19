@@ -4,33 +4,54 @@ import { loginUser } from "../api/loginApi";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../assets/equb.png";
-
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { loginSuccess } from "../redux/state";
 const Login = () => {
   const [formData, setFormData] = useState({
-    phoneNumber: "",
+    phone_number: "",
     password: "",
   });
-  const { phoneNumber, password } = formData;
+  const { phone_number, password } = formData;
+  const dispatch = useDispatch()
   const navigate = useNavigate();
+  const user = useSelector((state) => state.states.user)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  useEffect(() => {
+   
+    if (user) {
+      localStorage.setItem("user_id",JSON.stringify(user))
+      navigate("/dashboard");
+    }
+    else{
+      console.log("error occured")
+    }
+
+  }, [user, navigate])
+  
+
+
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
 
     try {
-      if (phoneNumber.length !== 10) {
+      if (phone_number.length !== 10) {
         throw new Error("Phone number must be a 10-digit number.");
       }
 
       if (password.length < 6) {
         throw new Error("Password must be at least 6 characters long.");
       }
+      const response = await axios.post("http://localhost:5003/api/v1/users/login", {
+        phone_number,
+        password,
+      });
+       dispatch(loginSuccess(response.data))
 
-      await loginUser(phoneNumber, password);
-      navigate("/dashboard");
     } catch (error) {
       let errorMessage = error.message;
 
@@ -59,8 +80,8 @@ const Login = () => {
           <div className="flex justify-start items-left flex-col gap-[10px]  ">
             <label htmlFor="phone">Phone Number</label>
             <input
-              value={phoneNumber}
-              name="phoneNumber"
+              value={phone_number}
+              name="phone_number"
               onChange={handleChange}
               type="tel"
               placeholder="Enter your Phone Number"

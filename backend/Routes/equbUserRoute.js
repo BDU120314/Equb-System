@@ -16,7 +16,7 @@ userRouter.post("/logout", logoutController);
 
 userRouter.get("/:id", getUserById);
 
-userRouter.post("/", createUser);
+userRouter.post("/signUp", createUser);
 
 userRouter.put("/:id", updateUser);
 

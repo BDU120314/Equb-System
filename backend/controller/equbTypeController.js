@@ -38,9 +38,8 @@ const getEqubTypeById = async (req, res) => {
   try {
     const equbType = await EqubType.findById(req.params.id);
     if (!equbType) {
-      return res.status(404).json({ error: "EqubType not found" });
+      return res.status(404).json({ error: "EqubType by id not found" });
     }
-    console.log("equb types are muller :   ", equbType);
     res.json(equbType);
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve EqubType" });

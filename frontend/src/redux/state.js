@@ -1,20 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState ={
-
-  isClicked:false
-
-}
+const initialState = {
+  user: null,
+  isClicked: false,
+};
 
 const StateSlice = createSlice({
-  name:"state",
-  initialState:initialState,
-  reducers:{
-    menuBar: (state) => { 
-      state.isClicked =!state.isClicked
-     }
-  }
-})
+  name: "states",
+  initialState: initialState,
+  reducers: {
+    menuBar: (state) => {
+      state.isClicked = !state.isClicked;
+    },
+    loginSuccess: (state, action) => {
+      state.user = action.payload;
+    },
+  },
+});
 
-export const {menuBar} = StateSlice.actions
-export default StateSlice.reducer
+export const { menuBar, loginSuccess } = StateSlice.actions;
+export default StateSlice.reducer;

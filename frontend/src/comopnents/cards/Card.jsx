@@ -1,13 +1,20 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
-const Card = ({ type, amount, No_member, status, createdAt }) => {
-  const formattedCreatedAt =
-    createdAt instanceof Date ? createdAt.toLocaleString() : "N/A";
-
+const Card = ({ amount, No_member, status, createdAt, equb_type_id }) => {
+  const [typeName, settypeName] = useState([])
+  useEffect(() => {
+    const handleTypeName = async ()=>{
+     
+       const response = await axios.get(`http://localhost:5003/api/v1/types/${equb_type_id}`)
+ settypeName(response.data)
+     }
+    handleTypeName()
+   }, [equb_type_id])
   return (
     <div className="block w-[100%] rounded-sm bg-gray-50 text-center shadow-[0_2px_15px_-3px_rgba(0,0,0,0.15),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
-      <div className="border-b-2 border-neutral-100 px-6 py-3 dark:border-neutral-600 dark:text-neutral-50">
-        {type}
+      <div className="border-b-2 border-neutral-100 px-6 py-3 dark:border-neutral-600 capitalize dark:text-neutral-50">
+        {typeName.equb_type_name}
       </div>
       <div className="p-6">
         <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
@@ -30,7 +37,7 @@ const Card = ({ type, amount, No_member, status, createdAt }) => {
       </div>
       <div className="border-t-2 border-neutral-100 px-6 py-3 dark:border-neutral-600 dark:text-neutral-50">
         <span>Created At:</span>
-        {formattedCreatedAt}.
+        {createdAt}.
       </div>
     </div>
   );
