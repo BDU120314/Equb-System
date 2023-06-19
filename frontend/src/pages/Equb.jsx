@@ -119,22 +119,22 @@ const handleSubmit = async (e) => {
           className="flex flex-col md:flex-row  items-center justify-center gap-2"
         >
           <select
-  id="type"
-  name="type"
-  value={queries.type}
-  onChange={(e) =>
-    setQueries((prevState) => ({
-      ...prevState,
-      type: e.target.value,
-    }))
-  }
-  className="bg-gray-100 outline-none border-2 border-gray-300 pl-3 w-full md:w-[250px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal"
->
-  <option value="">Select equb type</option>
-  <option value="648f9b71ebb5c6003cd359bc">Monthly</option>
-  <option value="64908a62f12ad5513cc44dfa">Weekly</option>
-  <option value="648fae2debb5c6003cd359cb">Daily</option>
-</select>
+            id="type"
+            name="type"
+            value={queries.type}
+            onChange={(e) =>
+              setQueries((prevState) => ({
+                ...prevState,
+                type: e.target.value,
+              }))
+            }
+            className="bg-gray-100 outline-none border-2 border-gray-300 pl-3 w-full md:w-[250px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal"
+          >
+            <option value="">Select equb type</option>
+            <option value="64905b0bafe7ffbb048ac95f">Monthly</option>
+            <option value="64905b16afe7ffbb048ac960">Weekly</option>
+            <option value="64905af2afe7ffbb048ac95e">Daily</option>
+          </select>
 
           <input
             id="amount"
