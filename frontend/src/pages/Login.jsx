@@ -1,42 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../api/loginApi";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../assets/equb.png";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../redux/state";
+
 const Login = () => {
   const [formData, setFormData] = useState({
     phone_number: "",
     password: "",
   });
   const { phone_number, password } = formData;
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const location = useLocation();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.states.user)
+  const user = useSelector((state) => state.states.user);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  useEffect(() => {
-   
-    if (user) {
-      localStorage.setItem("user_id",JSON.stringify(user))
-      navigate("/dashboard");
-    }
-    else{
-      console.log("error occured")
-    }
-
-  }, [user, navigate])
-  
-
-
   const handleLogin = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     try {
       if (phone_number.length !== 10) {
@@ -46,19 +34,42 @@ const Login = () => {
       if (password.length < 6) {
         throw new Error("Password must be at least 6 characters long.");
       }
-      const response = await axios.post("http://localhost:5003/api/v1/users/login", {
-        phone_number,
-        password,
-      });
-       dispatch(loginSuccess(response.data))
 
+      const response = await axios.post(
+        "http://localhost:5003/api/v1/users/login",
+        {
+          phone_number,
+          password,
+        }
+      );
+
+      dispatch(loginSuccess(response.data));
+
+      if (location.state && location.state.from === "/equb") {
+        const equbId = location.state.equbId;
+
+        // Redirect the user back to the Equb page after login
+        navigate(`/equb/${equbId}`);
+      } else {
+        // Redirect the user to the appropriate page after login
+        navigate("/dashboard");
+      }
     } catch (error) {
       let errorMessage = error.message;
 
-      if ((error.message = "Password must be at least 6 characters long."))
+      if (error.message === "Password must be at least 6 characters long.") {
         toast.error(errorMessage);
+      }
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user_id", JSON.stringify(user));
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
+
 
   return (
     <div className="bg-gray-100 h-[100vh]  flex flex-col items-center justify-center gap-5">
