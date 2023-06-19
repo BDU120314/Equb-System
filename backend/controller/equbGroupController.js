@@ -1,4 +1,5 @@
 const EqubGroup = require("../model/EqubGroup");
+const EqubType = require("../model/EqubType");
 
 
 const createEqubGroup = async (req, res) => {
@@ -39,7 +40,7 @@ const getEqubGroupById = async (req, res) => {
   try {
     const equbType = await EqubGroup.findById(req.params.id);
     if (!equbType) {
-      return res.status(404).json({ error: "EqubGroup not found" });
+      return res.status(404).json({ error: "EqubGroup by id not found muller" });
     }
     console.log("equb types are muller :   ", equbType);
     res.json(equbType);
@@ -58,7 +59,7 @@ const updateEqubGroup = async (req, res) => {
       { new: true }
     );
     if (!updatedEqubType) {
-      return res.status(404).json({ error: "EqubType not found" });
+      return res.status(404).json({ error: "EqubGroup not found updating" });
     }
     res.json(updatedEqubType);
   } catch (error) {
@@ -73,7 +74,7 @@ const deleteEqubGroup = async (req, res) => {
       req.params.equbTypeId
     );
     if (!deletedEqubType) {
-      return res.status(404).json({ error: "EqubType not found" });
+      return res.status(404).json({ error: "EqubGroup not found deleting" });
     }
     res.json(deletedEqubType);
   } catch (error) {
@@ -81,37 +82,41 @@ const deleteEqubGroup = async (req, res) => {
   }
 };
 
-// Search EqubTypes with pagination
+
+//Search EqubTypes with pagination
 const searchEqubGroup = async (req, res) => {
   try {
-    const { type, amount, members, page, pageSize } = req.query;
-    const conditions = [];
+    // console.log('tttttttttttttttt',req.query);
+   const { type, amount, members, page, pageSize } = req.query;
+console.log(type.equb_type_name);
+   let conditions = {};
+if (type) {
+ conditions.equb_type_id = mongoose.Types.ObjectId(type);
+ console.log('am now onbject');
+}
 
-    if (type) {
-      conditions.push({ equb_type_name: { $regex: new RegExp(type, "i") } });
-    }
 
-    if (amount) {
-      conditions.push({ amount_of_deposit: { $eq: parseInt(amount) } });
-    }
+ 
 
-    if (members) {
-      conditions.push({ total_Members: { $eq: parseInt(members) } });
-    }
+   if (amount) {
+     conditions.amount_of_deposit = parseInt(amount);
+   }
 
-    const query = conditions.length > 0 ? { $and: conditions } : {};
+   if (members) {
+     conditions.total_Members = parseInt(members);
+   }
 
-    const totalCount = await EqubGroup.countDocuments(query);
-    const totalPages = Math.ceil(totalCount / pageSize);
+   const totalCount = await EqubGroup.countDocuments(conditions);
+   const totalPages = Math.ceil(totalCount / pageSize);
 
-    const searchResult = await EqubGroup.find(query)
-      .skip((page - 1) * pageSize)
-      .limit(pageSize);
+   const searchResult = await EqubGroup.find(conditions)
+     .skip((page - 1) * pageSize)
+     .limit(pageSize);
 
-    res.json({
-      searchResult,
-      totalPages,
-    });
+   res.json({
+     searchResult,
+     totalPages,
+   });
   } catch (error) {
     res.status(500).json({ error: "Failed to search Equb Types" });
   }

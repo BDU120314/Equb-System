@@ -12,7 +12,7 @@ equbTypeRouter.post("/", createEqubType);
 
 equbTypeRouter.get("/:id", getEqubTypeById);
 
-equbTypeRouter.get("/", getAllEqubTypes);
+// equbTypeRouter.get("/", getAllEqubTypes);
 
 equbTypeRouter.put("/:equbTypeId", updateEqubType);
 

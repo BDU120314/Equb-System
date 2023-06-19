@@ -1,16 +1,28 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const Card = ({ amount, No_member, status, createdAt, equb_type_id }) => {
-  const [typeName, settypeName] = useState([])
+const Card = ({
+  amount,
+  No_member,
+  status,
+  createdAt,
+  equb_type_id,
+  equb_Group_id,
+}) => {
+  const [typeName, settypeName] = useState([]);
   useEffect(() => {
-    const handleTypeName = async ()=>{
-     
-       const response = await axios.get(`http://localhost:5003/api/v1/types/${equb_type_id}`)
- settypeName(response.data)
-     }
-    handleTypeName()
-   }, [equb_type_id])
+    const handleTypeName = async () => {
+      const response = await axios.get(
+        `http://localhost:5003/api/v1/types/${equb_type_id}`
+      );
+
+      settypeName(response.data);
+    };
+    handleTypeName();
+  }, [equb_type_id]);
+
+
+
   return (
     <div className="block w-[100%] rounded-sm bg-gray-50 text-center shadow-[0_2px_15px_-3px_rgba(0,0,0,0.15),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
       <div className="border-b-2 border-neutral-100 px-6 py-3 dark:border-neutral-600 capitalize dark:text-neutral-50">
@@ -27,6 +39,7 @@ const Card = ({ amount, No_member, status, createdAt, equb_type_id }) => {
           Status: {status}
         </p>
         <button
+        
           type="button"
           className="inline-block rounded bg-blue-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-blue-500-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-blue-500-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-blue-500-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
           data-te-ripple-init

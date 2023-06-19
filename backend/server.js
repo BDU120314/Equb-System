@@ -1,5 +1,5 @@
 const express = require("express");
-
+const session = require("express-session");
 require("dotenv").config();
 const path = require("path");
 const equbUserRoute = require("./Routes/equbUserRoute");
@@ -8,6 +8,17 @@ const equbTypeRouter = require("./Routes/equbTypeRoute");
 
 const cors = require("cors");
 const app = express();
+app.use(
+  session({
+    secret: "12345678910",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false, // Set to true if using HTTPS
+      maxAge: 86400000, // Cookie expiration time (in milliseconds)
+    },
+  })
+);
 
 const connectToDB = require("./config/db_config");
 

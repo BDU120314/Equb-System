@@ -5,9 +5,10 @@ import MainContent from "../comopnents/dashboard/MainContent";
 import logo from "../assets/equb.png";
 import profile from "../assets/profile.jpg";
 import { FaSearch } from "react-icons/fa";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { menuBar } from "../redux/state";
+import { logoutSuccess, menuBar } from "../redux/state";
+import axios from "axios";
 
 
 const Dashboard = () => {
@@ -34,6 +35,21 @@ const Dashboard = () => {
   const handleToggle = () => {
     setIsOpenSublink(!isOpenSublink);
   };
+
+
+  const navigate = useNavigate();
+
+  
+const logoutHandler = async () => {
+  try {
+    await axios.post("http://localhost:5003/api/v1/users/logout");
+
+    dispatch(logoutSuccess());
+    navigate("/");
+  } catch (error) {
+    console.error("Logout error:", error);
+  }
+};
 
   return (
     <div>
@@ -181,7 +197,9 @@ const Dashboard = () => {
                       </ul>
                     </div>
                     <div className="text-center my-10 cursor-pointer">
-                      <span className="px-5 py-2 bg-red-300 rounded-md hover:bg-red-200">
+                      <span 
+                      onClick={logoutHandler}
+                      className="px-5 py-2 bg-red-300 rounded-md hover:bg-red-200">
                         Logout
                       </span>
                     </div>

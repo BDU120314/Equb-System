@@ -15,8 +15,12 @@ const StateSlice = createSlice({
     loginSuccess: (state, action) => {
       state.user = action.payload;
     },
+    logoutSuccess: (state) => {
+      state.user = null; // Clear the user data from the state
+      localStorage.clear();
+    },
   },
 });
 
-export const { menuBar, loginSuccess } = StateSlice.actions;
+export const { menuBar, loginSuccess, logoutSuccess } = StateSlice.actions;
 export default StateSlice.reducer;

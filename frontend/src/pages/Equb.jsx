@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Card from "../comopnents/cards/Card";
 import { toast, ToastContainer } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 import { FaSearch } from "react-icons/fa";
 import axios from "axios";
+
 
 const Equb = () => {
   const [isSearched, setIsSearched] = useState(false);
@@ -12,7 +14,9 @@ const Equb = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [typeName, settypeName] = useState([])
+  const [typeName, settypeName] = useState([]);
+
+ 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,43 +41,69 @@ const Equb = () => {
     fetchData();
   }, [currentPage, queries]);
 
-  const typeName_id = equbType.map(item => item.equb_type_id);
+  const typeName_id = equbType.map((item) => item.equb_type_id);
 
-  
   useEffect(() => {
-   const handleTypeName = async ()=>{
-    for (const equb_type_id of typeName_id) {
-      const response = await axios.get(`http://localhost:5003/api/v1/types/${equb_type_id}`)
-settypeName(response.data)
-    }
-   }
-   handleTypeName()
-  }, [typeName_id])
-  console.log(typeName)
-  
+    const handleTypeName = async () => {
+      for (const equb_type_id of typeName_id) {
+        const response = await axios.get(
+          `http://localhost:5003/api/v1/types/${equb_type_id}`
+        );
+        settypeName(response.data);
+      }
+    };
+    handleTypeName();
+  }, []);
   
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setCurrentPage(1);
-    try {
-      const response = await axios.get(
-        "http://localhost:5003/api/v1/groups/search",
-        {
-          params: {
-            ...queries,
-            page: 1,
-            pageSize: 8,
-          },
-        }
-      );
-      setFilteredData(response.data.searchResult);
-      setTotalPages(response.data.totalPages);
-    } catch (error) {
-      console.log("Failed to fetch filtered data:", error);
-    }
-    setIsSearched(true);
-  };
+   
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setCurrentPage(1);
+  try {
+    const response = await axios.get(
+      "http://localhost:5003/api/v1/groups/search",
+      {
+        params: {
+          ...queries,
+          page: 1,
+          pageSize: 8,
+        },
+      }
+    );
+    setFilteredData(response.data.searchResult);
+    setTotalPages(response.data.totalPages);
+  } catch (error) {
+    console.log("Failed to fetch filtered data:", error);
+  }
+  setIsSearched(true);
+};
+  
+
+
+// const handleSubmit = async (e) => {
+//   e.preventDefault();
+//   setCurrentPage(1);
+//   try {
+//     const params = { ...queries, page: 1, pageSize: 8 };
+//     if (params.type) {
+//       params.type = new ObjectId(params.type);
+//     }
+//     const response = await axios.get(
+//       "http://localhost:5003/api/v1/groups/search",
+//       {
+//         params,
+//       }
+//     );
+//     setFilteredData(response.data.searchResult);
+//     setTotalPages(response.data.totalPages);
+//     console.log("the idddddddddddddd", queries);
+//   } catch (error) {
+//     console.log("Failed to fetch filtered data:", error);
+//   }
+//   setIsSearched(true);
+// };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -100,9 +130,10 @@ settypeName(response.data)
             className="bg-gray-100 outline-none border-2 border-gray-300 pl-3 w-full md:w-[250px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal"
           >
             <option value="">Select equb type</option>
-            <option value="648f9b71ebb5c6003cd359bc">Monthly</option>
-            <option value="Weekly">Weekly</option>
-            <option value="Daily">Daily</option>
+            <option value="649008259bcdf397bf96aa45">Monthly</option>
+            <option value="649011549bcdf397bf96aa49">Weekly</option>
+            <option value="648ffe418f64b6cfef1a14b0">Daily</option>
+            {/* '''''''''''' hjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj*/}
           </select>
           <input
             id="amount"
@@ -152,8 +183,7 @@ settypeName(response.data)
               No_member={equbItem.total_Members}
               status={equbItem.status}
               createdAt={equbItem.createdAt}
-              equb_Group_id ={equbItem._id}
-
+              equb_Group_id={equbItem._id}
             />
           ))
         ) : isSearched ? (
@@ -167,7 +197,7 @@ settypeName(response.data)
               No_member={equbItem.total_Members}
               status={equbItem.status}
               createdAt={equbItem.createdAt}
-              equb_Group_id ={equbItem._id}
+              equb_Group_id={equbItem._id}
             />
           ))
         )}

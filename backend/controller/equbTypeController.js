@@ -38,7 +38,7 @@ const getEqubTypeById = async (req, res) => {
   try {
     const equbType = await EqubType.findById(req.params.id);
     if (!equbType) {
-      return res.status(404).json({ error: "EqubType by id not found" });
+      return res.status(404).json({ error: "EqubType by id not found natty" });
     }
     res.json(equbType);
   } catch (error) {
@@ -56,7 +56,7 @@ const updateEqubType = async (req, res) => {
       { new: true }
     );
     if (!updatedEqubType) {
-      return res.status(404).json({ error: "EqubType not found" });
+      return res.status(404).json({ error: "EqubType not found updating" });
     }
     res.json(updatedEqubType);
   } catch (error) {
@@ -71,7 +71,7 @@ const deleteEqubType = async (req, res) => {
       req.params.equbTypeId
     );
     if (!deletedEqubType) {
-      return res.status(404).json({ error: "EqubType not found" });
+      return res.status(404).json({ error: "EqubType not found deleting" });
     }
     res.json(deletedEqubType);
   } catch (error) {
