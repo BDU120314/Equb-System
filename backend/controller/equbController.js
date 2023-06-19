@@ -137,7 +137,7 @@ const loginController = async function (req, res) {
     });
 
     // Send the token in the response
-    res.status(200).json({ user_id: user._id, token });
+    res.status(200).json({user_id: user._id, token });
   } catch (error) {
     res.status(500).json({ error: "An error occurred while logging in" });
   }

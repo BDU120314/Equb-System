@@ -36,20 +36,16 @@ const Dashboard = () => {
     setIsOpenSublink(!isOpenSublink);
   };
 
-
   const navigate = useNavigate();
 
-  
-const logoutHandler = async () => {
-  try {
-    await axios.post("http://localhost:5003/api/v1/users/logout");
-
-    dispatch(logoutSuccess());
-    navigate("/");
-  } catch (error) {
-    console.error("Logout error:", error);
-  }
-};
+  const logoutHandler = async () => {
+    try {
+      dispatch(logoutSuccess());
+      navigate("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   return (
     <div>
@@ -196,10 +192,8 @@ const logoutHandler = async () => {
                         </li>
                       </ul>
                     </div>
-                    <div className="text-center my-10 cursor-pointer">
-                      <span 
-                      onClick={logoutHandler}
-                      className="px-5 py-2 bg-red-300 rounded-md hover:bg-red-200">
+                    <div onClick={logoutHandler} className="text-center my-10 cursor-pointer">
+                      <span className="px-5 py-2 bg-red-300 rounded-md hover:bg-red-200">
                         Logout
                       </span>
                     </div>

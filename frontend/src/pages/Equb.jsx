@@ -41,19 +41,20 @@ const Equb = () => {
     fetchData();
   }, [currentPage, queries]);
 
-  const typeName_id = equbType.map((item) => item.equb_type_id);
+  // const typeName_id = equbType.map(item => item.equb_type_id);
 
-  useEffect(() => {
-    const handleTypeName = async () => {
-      for (const equb_type_id of typeName_id) {
-        const response = await axios.get(
-          `http://localhost:5003/api/v1/types/${equb_type_id}`
-        );
-        settypeName(response.data);
-      }
-    };
-    handleTypeName();
-  }, []);
+  
+//   useEffect(() => {
+//    const handleTypeName = async ()=>{
+//     for (const equb_type_id of typeName_id) {
+//       const response = await axios.get(`http://localhost:5003/api/v1/types/${equb_type_id}`)
+// settypeName(response.data)
+//     }
+//    }
+//    handleTypeName()
+//   }, [typeName_id])
+//   console.log(typeName)
+  
   
 
    
@@ -118,23 +119,23 @@ const handleSubmit = async (e) => {
           className="flex flex-col md:flex-row  items-center justify-center gap-2"
         >
           <select
-            id="type"
-            name="type"
-            value={queries.type}
-            onChange={(e) =>
-              setQueries((prevState) => ({
-                ...prevState,
-                type: e.target.value,
-              }))
-            }
-            className="bg-gray-100 outline-none border-2 border-gray-300 pl-3 w-full md:w-[250px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal"
-          >
-            <option value="">Select equb type</option>
-            <option value="649008259bcdf397bf96aa45">Monthly</option>
-            <option value="649011549bcdf397bf96aa49">Weekly</option>
-            <option value="648ffe418f64b6cfef1a14b0">Daily</option>
-            {/* '''''''''''' hjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj*/}
-          </select>
+  id="type"
+  name="type"
+  value={queries.type}
+  onChange={(e) =>
+    setQueries((prevState) => ({
+      ...prevState,
+      type: e.target.value,
+    }))
+  }
+  className="bg-gray-100 outline-none border-2 border-gray-300 pl-3 w-full md:w-[250px] h-10 rounded-tl-[10px] rounded-bl-[10px] placeholder:text-[18px] leading-4 font-normal"
+>
+  <option value="">Select equb type</option>
+  <option value="648f9b71ebb5c6003cd359bc">Monthly</option>
+  <option value="64908a62f12ad5513cc44dfa">Weekly</option>
+  <option value="648fae2debb5c6003cd359cb">Daily</option>
+</select>
+
           <input
             id="amount"
             name="amount"
