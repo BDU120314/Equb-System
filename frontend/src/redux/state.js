@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: null,
   isClicked: false,
+  isLogin :false,
 };
 
 const StateSlice = createSlice({
@@ -14,6 +15,7 @@ const StateSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       state.user = action.payload;
+      state.isLogin = true
     },
     logoutSuccess: (state) => {
       state.user = null; // Clear the user data from the state

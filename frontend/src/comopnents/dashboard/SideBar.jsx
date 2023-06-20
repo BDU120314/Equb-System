@@ -18,25 +18,6 @@ const SideBar = () => {
         <div className="h-full px-3 pb-4 overflow-y-auto  bg-white dark:bg-white">
           <ul className="space-y-5 font-medium text-blacks">
             <li>
-              <Link
-                to="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-200"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-                  <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
-                </svg>
-                <span className="ml-3 text-black">Account</span>
-              </Link>
-            </li>
-
-            <li>
               <button
                 onClick={handleToggle}
                 type="button"
@@ -58,7 +39,7 @@ const SideBar = () => {
                   ></path>
                 </svg>
                 <span className="flex-1 ml-3 text-left whitespace-nowrap">
-                  Default Equb
+                  Create Equb
                 </span>
                 <svg
                   aria-hidden="true"
@@ -89,7 +70,7 @@ const SideBar = () => {
                   </li>
                   <li>
                     <Link
-                      to="#"
+                      to="/dashboard/weeklyEqub"
                       className="flex items-center px-10 py-1.5 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-gray-700 dark:hover:bg-gray-200"
                     >
                       Weekly Equb
@@ -97,38 +78,28 @@ const SideBar = () => {
                   </li>
                   <li>
                     <Link
-                      to="#"
+                      to="/dashboard/monthlyEqub"
                       className="flex items-center px-10 py-1.5 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-gray-700 dark:hover:bg-gray-200"
                     >
                       Monthly Equb
                     </Link>
                   </li>
+
+                  <li>
+                    <Link
+                      to="/dashboard/customEqub"
+                      className="flex items-center px-10 py-1.5 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-gray-700 dark:hover:bg-gray-200"
+                    >
+                      Custom Equb
+                    </Link>
+                  </li>
                 </ul>
               )}
-            </li>
-            <li>
-              <Link
-                to="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-200"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
-                </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap text-black">
-                  Custom Equb
-                </span>
-              </Link>
             </li>
 
             <li>
               <Link
-                to="#"
+                to="/dashboard/equbdetail"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-200"
               >
                 <svg
@@ -142,7 +113,28 @@ const SideBar = () => {
                   <path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path>
                 </svg>
                 <span className="flex-1 ml-3 whitespace-nowrap text-black">
-                  Setting
+                  Equb Detail
+                </span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                to="/dashboard/setting"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-200"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"></path>
+                  <path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path>
+                </svg>
+                <span className="flex-1 ml-3 whitespace-nowrap text-black">
+                  Setting 
                 </span>
               </Link>
             </li>

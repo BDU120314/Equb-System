@@ -1,6 +1,7 @@
 const EqubGroup = require("../model/EqubGroup");
-const EqubType = require("../model/EqubType");
+const sendSMSNotification = require("../config/twilo");
 
+const phoneNumber = "+251994868854";
 
 const createEqubGroup = async (req, res) => {
   try {
@@ -97,7 +98,7 @@ if (type) {
 
 
     if (type) {
-      conditions.push({ equb_type_id: type }); 
+      conditions.push({ equb_type_id: type });
     }
 
  
@@ -125,7 +126,6 @@ if (type) {
     res.status(500).json({ error: "Failed to search Equb Groups" });
   }
 };
-
 
 // Check if user exists in EqubGroup
 const checkUserInEqubGroup = async (req, res) => {
@@ -157,9 +157,13 @@ const addUserToEqubGroup = async (req, res) => {
     }
 
     // Check if the user already exists in the EqubGroup
-    const userExists = equbGroup.members.some(member => member.toString() === userId);
+    const userExists = equbGroup.members.some(
+      (member) => member.toString() === userId
+    );
     if (userExists) {
-      return res.status(400).json({ error: "User already exists in the EqubGroup" });
+      return res
+        .status(400)
+        .json({ error: "User already exists in the EqubGroup" });
     }
 
     // Add the user to the members array
@@ -167,14 +171,16 @@ const addUserToEqubGroup = async (req, res) => {
 
     // Save the updated EqubGroup
     const updatedEqubGroup = await equbGroup.save();
-
+    if (updatedEqubGroup) {
+      // Send a join notification
+      sendSMSNotification.sendSMSNotification(phoneNumber, "join");
+    }
     res.json(updatedEqubGroup);
   } catch (error) {
-    console.log(Error)
+    console.log(Error);
     res.status(500).json({ error: "Failed to add user to EqubGroup" });
   }
 };
-
 
 module.exports = {
   getAllEqubGroups,

@@ -14,9 +14,6 @@ const Equb = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [typeName, settypeName] = useState([]);
-
- 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,71 +37,27 @@ const Equb = () => {
 
     fetchData();
   }, [currentPage, queries]);
-
-  // const typeName_id = equbType.map(item => item.equb_type_id);
-
-  
-//   useEffect(() => {
-//    const handleTypeName = async ()=>{
-//     for (const equb_type_id of typeName_id) {
-//       const response = await axios.get(`http://localhost:5003/api/v1/types/${equb_type_id}`)
-// settypeName(response.data)
-//     }
-//    }
-//    handleTypeName()
-//   }, [typeName_id])
-//   console.log(typeName)
-  
-  
-
-   
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setCurrentPage(1);
-  try {
-    const response = await axios.get(
-      "http://localhost:5003/api/v1/groups/search",
-      {
-        params: {
-          ...queries,
-          page: 1,
-          pageSize: 8,
-        },
-      }
-    );
-    setFilteredData(response.data.searchResult);
-    setTotalPages(response.data.totalPages);
-  } catch (error) {
-    console.log("Failed to fetch filtered data:", error);
-  }
-  setIsSearched(true);
-};
-  
-
-
-// const handleSubmit = async (e) => {
-//   e.preventDefault();
-//   setCurrentPage(1);
-//   try {
-//     const params = { ...queries, page: 1, pageSize: 8 };
-//     if (params.type) {
-//       params.type = new ObjectId(params.type);
-//     }
-//     const response = await axios.get(
-//       "http://localhost:5003/api/v1/groups/search",
-//       {
-//         params,
-//       }
-//     );
-//     setFilteredData(response.data.searchResult);
-//     setTotalPages(response.data.totalPages);
-//     console.log("the idddddddddddddd", queries);
-//   } catch (error) {
-//     console.log("Failed to fetch filtered data:", error);
-//   }
-//   setIsSearched(true);
-// };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setCurrentPage(1);
+    try {
+      const response = await axios.get(
+        "http://localhost:5003/api/v1/groups/search",
+        {
+          params: {
+            ...queries,
+            page: 1,
+            pageSize: 8,
+          },
+        }
+      );
+      setFilteredData(response.data.searchResult);
+      setTotalPages(response.data.totalPages);
+    } catch (error) {
+      console.log("Failed to fetch filtered data:", error);
+    }
+    setIsSearched(true);
+  };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);

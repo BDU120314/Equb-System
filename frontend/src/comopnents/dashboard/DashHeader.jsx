@@ -1,30 +1,46 @@
 import React, { useState } from "react";
-import { FaSearch } from "react-icons/fa";
+// import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import logo from "../../assets/equb.png";
 import profile from "../../assets/profile.jpg";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {logoutSuccess } from "../../redux/state";
 
-const initialState = {
-  searchQuery: "",
-};
+// const initialState = {
+//   searchQuery: "",
+// };
 
 const DashHeader = () => {
-  const [formData, setFormData] = useState(initialState);
+  // const [formData, setFormData] = useState(initialState);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
+
+  const dispatch = useDispatch();
 
   function toggleUserMenu() {
     setUserMenuOpen((prevState) => !prevState);
   }
 
+  const navigate = useNavigate();
+
+  const logoutHandler = async () => {
+    try {
+      dispatch(logoutSuccess());
+      navigate("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("search is done");
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log("search is done");
+  // };
 
   return (
     <div>
@@ -67,7 +83,7 @@ const DashHeader = () => {
                 </span>
               </Link>
             </div>
-            <div className="flex items-center rounded-[5px]">
+            {/* <div className="flex items-center rounded-[5px]">
               <form
                 action=""
                 onSubmit={handleSubmit}
@@ -91,7 +107,7 @@ const DashHeader = () => {
                   <FaSearch color="white" />
                 </button>
               </form>
-            </div>
+            </div> */}
             <div className="flex items-center">
               <div className="flex items-center ml-3">
                 <div>
@@ -173,7 +189,12 @@ const DashHeader = () => {
                       </ul>
                     </div>
                     <div className="text-center my-10 cursor-pointer">
-                      <span className="px-5 py-2 bg-red-300 rounded-md hover:bg-red-200">Logout</span>
+                      <span
+                        onClick={logoutHandler}
+                        className="px-5 py-2 bg-red-300 rounded-md hover:bg-red-200"
+                      >
+                        Logout
+                      </span>
                     </div>
                   </div>
                 )}
