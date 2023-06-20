@@ -17,6 +17,7 @@ const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const user = useSelector((state) => state.states.user);
+  const isLogin = useSelector((state) => state.states.isLogin);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,9 +67,10 @@ const Login = () => {
   useEffect(() => {
     if (user) {
       localStorage.setItem("user_id", JSON.stringify(user));
+      localStorage.setItem("isLogin", JSON.stringify(isLogin));
       navigate("/dashboard");
     }
-  }, [user, navigate]);
+  }, [user,isLogin, navigate,]);
 
 
   return (

@@ -12,7 +12,6 @@ const Equb = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [typeName, settypeName] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,23 +35,6 @@ const Equb = () => {
 
     fetchData();
   }, [currentPage, queries]);
-
-  // const typeName_id = equbType.map(item => item.equb_type_id);
-
-  
-//   useEffect(() => {
-//    const handleTypeName = async ()=>{
-//     for (const equb_type_id of typeName_id) {
-//       const response = await axios.get(`http://localhost:5003/api/v1/types/${equb_type_id}`)
-// settypeName(response.data)
-//     }
-//    }
-//    handleTypeName()
-//   }, [typeName_id])
-//   console.log(typeName)
-  
-  
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setCurrentPage(1);

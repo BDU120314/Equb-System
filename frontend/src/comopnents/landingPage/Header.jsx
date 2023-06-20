@@ -5,7 +5,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import logo from "../../assets/equb.png";
 
 const Header = () => {
-  const [navbarOpen, setNavbarOpen] = React.useState(false);
+  const [navbarOpen, setNavbarOpen] =useState(false);
 
 
   const location = useLocation();
@@ -78,7 +78,7 @@ const Header = () => {
                 <NavLink
                   to="/dashboard"
                   className={`px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-black hover:text-gray-400 hover:opacity-75 ${
-                    location.pathname === "/services" ? "text-gray-400" : ""
+                    location.pathname === "/dashboard" ? "text-gray-400" : ""
                   }`}
                 >
                   dashboard

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const sendSMSNotification  = require("../config/twilo")
 const groupSchema = new mongoose.Schema({
   group_name: { type: String, required: true },
   start_date: { type: Date, default: null },
@@ -22,8 +22,15 @@ const groupSchema = new mongoose.Schema({
 
 // Pre-save hook to automatically set the start_date when members length is equal to total_Members
 groupSchema.pre("save", function (next) {
-  if (this.isModified("members") && this.members.length === this.total_Members) {
+  if (
+    this.isModified("members") &&
+    this.members.length === this.total_Members
+  ) {
     this.start_date = new Date();
+    this.status = "Started"; // Update the status to "Started"
+    const phoneNumber = "+251994868854";
+    // Send a start notification
+  sendSMSNotification(phoneNumber, "start");
   }
   next();
 });
