@@ -86,7 +86,7 @@ const deleteEqubGroup = async (req, res) => {
 //Search EqubTypes with pagination
 const searchEqubGroup = async (req, res) => {
   try {
-    // console.log('tttttttttttttttt',req.query);
+     console.log('tttttttttttttttt',req.query);
    const { type, amount, members, page, pageSize } = req.query;
 console.log(type.equb_type_name);
    let conditions = {};
@@ -94,6 +94,7 @@ if (type) {
  conditions.equb_type_id = mongoose.Types.ObjectId(type);
  console.log('am now onbject');
 }
+
 
     if (type) {
       conditions.push({ equb_type_id: type }); 
